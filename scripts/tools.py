@@ -65,9 +65,9 @@ def simple_gpio_write(addr, data):
     gpio.write(data)
     gpio.close()
 
-def check_board_address():
+def check_gpio_board_address():
     """
-    Check which address maps to which board
+    Check which address maps to which board on gpio mpde
 
     In this example, we have two FT232H boards connected to PC
     """
@@ -91,14 +91,15 @@ def simple_spi_write(addr, data):
 def check_spi_2_logic_analyzer():
     """
     Check SPI transaction send correctly
+    Also check which address maps to which board on spi mode
 
     In this example, we have saleae logic analyzer connected to the FT232H board
     """
     addr = find_usb_addr()
-    # Write board 1 one byte transaction 0x64 (100)
-    simple_spi_write(addr[0], b'\x64')
-    # Write board 1 one byte transaction 0x64 (100)
-    simple_spi_write(addr[1], b'\x64')
+    # Write board 1 one byte transaction 0x12
+    simple_spi_write(addr[0], b'\x12')
+    # Write board 1 one byte transaction 0x34
+    simple_spi_write(addr[1], b'\x34')
 
 # check_board_address()
 # check_spi_2_logic_analyzer()

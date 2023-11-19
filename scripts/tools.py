@@ -11,8 +11,9 @@ def find_gpio_addr():
     gpio0_addr = "ftdi://ftdi:232h:" + hex(FT232H_list[0][0].bus)[2:].zfill(2) + ":"+hex(FT232H_list[0][0].address)[2:].zfill(2)+"/1"
     gpio1_addr = "ftdi://ftdi:232h:" + hex(FT232H_list[1][0].bus)[2:].zfill(2) + ":"+hex(FT232H_list[1][0].address)[2:].zfill(2)+"/1"
 
-    # Check which bridge is gpio0
+    # Print out bridge address
     print("USB Address of the first board to be checked is: " + gpio0_addr)
+    print("USB Address of the second board to be checked is: " + gpio1_addr)
     
     return gpio0_addr, gpio1_addr
 
@@ -33,3 +34,6 @@ def simple_write(addr):
     # Write D0 to 1
     gpio.write(0x0001)
     gpio.close()
+
+input_addr, output_addr = find_gpio_addr()
+simple_write(input_addr)

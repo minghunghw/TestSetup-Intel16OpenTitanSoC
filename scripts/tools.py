@@ -99,3 +99,6 @@ def check_spi_2_logic_analyzer():
     simple_spi_write(addr[0], b'\x64')
     # Write board 1 one byte transaction 0x64 (100)
     simple_spi_write(addr[1], b'\x64')
+
+# check_board_address()
+# check_spi_2_logic_analyzer()

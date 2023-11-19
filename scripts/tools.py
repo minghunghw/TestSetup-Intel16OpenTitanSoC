@@ -1,5 +1,12 @@
-from pyftdi.gpio import GpioMpsseController
 from pyftdi.usbtools import UsbTools
+from pyftdi.gpio import GpioMpsseController
+from pyftdi.spi import SpiController
+
+"""
+FT232H Device USB Address
+"""
+ADDR_I = "ftdi://ftdi:232h:00:ff/1"
+ADDR_O = "ftdi://ftdi:232h:00:fe/1"
 
 """
 FT232H Device Pinout
@@ -25,12 +32,6 @@ FT232H Device Pinout
   ACBUS7    GPIO15          GPIO15   GPIO15
 
 """
-
-"""
-FT232H Device USB Address
-"""
-in_addr = "ftdi://ftdi:232h:00:ff/1"
-out_addr = "ftdi://ftdi:232h:00:fe/1"
 
 def find_usb_addr():
     """"
@@ -82,9 +83,10 @@ def simple_spi_write(addr, data):
     """
     # Initalize SPI
     spi = SpiController()
-    spi.configure(addr, frequency=1e6, mode=0)
+    spi.configure(addr, frequency=1e6)
     slave = spi.get_port(cs=0)
     slave.write(data)
+    spi.close()
 
 def check_spi_2_logic_analyzer():
     """
@@ -94,6 +96,6 @@ def check_spi_2_logic_analyzer():
     """
     addr = find_usb_addr()
     # Write board 1 one byte transaction 0x64 (100)
-    simple_spi_write(addr[0], 0x64)
+    simple_spi_write(addr[0], b'\x64')
     # Write board 1 one byte transaction 0x64 (100)
-    simple_spi_write(addr[1], 0x64)
+    simple_spi_write(addr[1], b'\x64')

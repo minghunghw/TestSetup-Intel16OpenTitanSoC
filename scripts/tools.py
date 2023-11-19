@@ -5,8 +5,8 @@ from pyftdi.spi import SpiController
 """
 FT232H Device USB Address
 """
-ADDR_I = "ftdi://ftdi:232h:00:ff/1"
-ADDR_O = "ftdi://ftdi:232h:00:fe/1"
+ADDR_I = "ftdi://ftdi:232h:00:fe/1"
+ADDR_O = "ftdi://ftdi:232h:00:ff/1"
 
 """
 FT232H Device Pinout

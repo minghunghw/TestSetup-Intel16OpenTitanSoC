@@ -180,8 +180,8 @@ def check_chip2spi():
     slave = spi.get_port(cs=0)
     # Read address 100 data 100
     data = chip2spi(slave, 11, 100)
-    spi.close()
     print(int.from_bytes(data, byteorder='big'))
+    spi.close()
 
 # check_board_address()
 # check_simple_spi_2_logic_analyzer()

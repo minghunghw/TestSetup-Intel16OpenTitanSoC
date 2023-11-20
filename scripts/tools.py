@@ -3,12 +3,6 @@ from pyftdi.gpio import GpioMpsseController
 from pyftdi.spi import SpiController
 
 """
-FT232H Device USB Address
-"""
-ADDR_I = "ftdi://ftdi:232h:00:fe/1"
-ADDR_O = "ftdi://ftdi:232h:00:ff/1"
-
-"""
 FT232H Device Pinout
 
 ========== ======= ====== ======== ========== ======
@@ -51,7 +45,7 @@ def find_usb_addr():
 
 def simple_gpio_write(addr, data):
     """
-    Simple GPIO write to a board according to address
+    Simple GPIO write two bytes data to a board according to address
 
     Parameters:
         direction     (16 bits): 0 for input, 1 for output
@@ -79,7 +73,7 @@ def check_gpio_board_address():
 
 def simple_spi_write(addr, data):
     """
-    Simple SPI write to a board according to address
+    Simple SPI write one byte data to a board according to address
     """
     # Initalize SPI
     spi = SpiController()
@@ -88,7 +82,7 @@ def simple_spi_write(addr, data):
     slave.write(data)
     spi.close()
 
-def check_spi_2_logic_analyzer():
+def check_simple_spi_2_logic_analyzer():
     """
     Check SPI transaction send correctly
     Also check which address maps to which board on spi mode
@@ -98,8 +92,46 @@ def check_spi_2_logic_analyzer():
     addr = find_usb_addr()
     # Write board 1 one byte transaction 0x12
     simple_spi_write(addr[0], b'\x12')
-    # Write board 1 one byte transaction 0x34
+    # Write board 2 one byte transaction 0x34
     simple_spi_write(addr[1], b'\x34')
 
+def spi_write_4byte(slave, data):
+    """
+    SPI write consecutive 4 bytes data to a board according to address
+    """
+    # Initalize SPI
+    data = data.to_bytes(4, byteorder='big')
+    slave.write(data)
+
+def check_continuous_spi():
+    """
+    Check consecutive 4 bytes SPI transactions send correctly
+    """
+    addr = find_usb_addr()
+    # Initalize SPI
+    spi = SpiController()
+    spi.configure(addr[0], frequency=1e6)
+    slave = spi.get_port(cs=0)
+
+    # Write board 1 three 4 bytes transactions 100(0x64), 200(0xc8), 300(0x12c)
+    spi_write_4byte(slave, 100)
+    spi_write_4byte(slave, 200)
+    spi_write_4byte(slave, 300)
+    spi.close()
+
+def spi_2_chip(slave, cmd, addr, data):
+    """
+    Actual SPI transaction send to chip
+
+    Parameters:
+        cmd:   8 bits, command for spi_device_tlul, 2 for write_mem, 11 for read_mem
+        addr: 32 bits, address for memory mapping
+        data: 32 bits, data for spi transaction
+    """
+    cmd = cmd.to_bytes(2, byteorder='big')
+    addr = addr.to_bytes(4, byteorder='big')
+    data = data.to_bytes(4, byteorder='big')
+
 # check_board_address()
-# check_spi_2_logic_analyzer()
+# check_simple_spi_2_logic_analyzer()
+# check_continuous_spi()

@@ -198,7 +198,7 @@ def check_spi_plus_gpio():
     gpio.write(0x00)
     spi.close()
 
-# check_board_address()
+# check_gpio_board_address()
 # check_simple_spi_2_logic_analyzer()
 # check_continuous_spi()
 # check_spi2chip()

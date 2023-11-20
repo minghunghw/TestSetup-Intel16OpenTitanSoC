@@ -183,7 +183,7 @@ def check_chip2spi():
     print(int.from_bytes(data, byteorder='big'))
     spi.close()
 
-# check_board_address()
+# check_gpio_board_address()
 # check_simple_spi_2_logic_analyzer()
 # check_continuous_spi()
 # check_spi2chip()

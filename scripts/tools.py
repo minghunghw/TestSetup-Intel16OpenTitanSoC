@@ -194,8 +194,8 @@ def check_spi_plus_gpio():
     slave = spi.get_port(cs=0)
     gpio = spi.get_gpio()
     # Set C7-C0 to output
-    gpio.set_direction(0xff, 0xff)
-    gpio.write(0x00)
+    gpio.set_direction(0xff00, 0xff00)
+    gpio.write(0x0000)
     spi.close()
 
 # check_gpio_board_address()

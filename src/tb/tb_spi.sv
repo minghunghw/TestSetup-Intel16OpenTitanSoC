@@ -32,6 +32,7 @@ module tb;
 
     logic  [31:0]               wr_data, rd_data;
     logic                       rd_data_valid;
+    logic  [33:0]               dummy;
 
     top_core u_top_core (
         .*
@@ -51,6 +52,7 @@ module tb;
         spi_sdi1        = 0;
         spi_sdi2        = 0;
         spi_sdi3        = 0;
+        dummy           = 0;
         
         @(negedge clk_i)
         rst_ni      = 1;

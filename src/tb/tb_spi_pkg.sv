@@ -19,15 +19,7 @@ localparam SPI_CLK_PERIOD = 1000;
     end                                     \
     rd_data_valid = 1'b1;                   \
     #SPI_CLK_PERIOD;                        \
-    rd_data_valid = 1'b0;                                       
-
-`define DUMMY_CYCLE                         \
-    for (int i=0; i<34; i++) begin          \
-        #SPI_CLK_PERIOD;                    \
-        spi_sclk = 1'b1;                    \
-        #SPI_CLK_PERIOD;                    \
-        spi_sclk = 1'b0;                    \
-    end                                       
+    rd_data_valid = 1'b0;                                                                            
 
 `define SPI_OUTPUT(cmd, addr, data)         \
     spi_cs = 0;                             \
@@ -43,7 +35,7 @@ localparam SPI_CLK_PERIOD = 1000;
     #SPI_CLK_PERIOD;                        \
     `SPI_TX(8, cmd);                        \
     `SPI_TX(32, addr);                      \
-    `DUMMY_CYCLE;                           \
+    `SPI_TX(34, dummy);                     \
     `SPI_RX(32, data);                      \
     #SPI_CLK_PERIOD;                        \
     spi_cs = 1;                             

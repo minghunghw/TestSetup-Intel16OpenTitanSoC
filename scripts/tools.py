@@ -119,7 +119,7 @@ def check_continuous_spi():
     spi_write_4byte(slave, 300)
     spi.close()
 
-def spi_2_chip(slave, cmd, addr, data):
+def spi2chip(slave, cmd, addr, data):
     """
     Actual SPI transaction send to chip
 
@@ -128,12 +128,6 @@ def spi_2_chip(slave, cmd, addr, data):
         addr: 32 bits, address for memory mapping
         data: 32 bits, data for spi transaction
     """
-    
-    usb_addr = find_usb_addr()
-    # Initalize SPI
-    spi = SpiController()
-    spi.configure(usb_addr[0], frequency=1e6)
-    slave = spi.get_port(cs=0)
     # Convert to bytes for each parameter
     cmd  = cmd.to_bytes(1, byteorder='big')
     addr = addr.to_bytes(4, byteorder='big')
@@ -141,8 +135,56 @@ def spi_2_chip(slave, cmd, addr, data):
     slave.write(cmd)
     slave.write(addr)
     slave.write(data)
+    
+def check_spi2chip():
+    """
+    Check SPI transaction send correctly
+    """
+    addr = find_usb_addr()
+    # Initalize SPI
+    spi = SpiController()
+    spi.configure(addr[0], frequency=1e6)
+    slave = spi.get_port(cs=0)
+    # Write address 100 data 100
+    spi2chip(slave, 2, 100, 100)
     spi.close()
+
+def chip2spi(slave, cmd, addr, dummy=0):
+    """
+    Actual SPI transaction send from chip
+
+    Parameters:
+        cmd:   8 bits, command for spi_device_tlul, 2 for write_mem, 11 for read_mem
+        addr: 32 bits, address for memory mapping
+        data: 32 bits, data for spi transaction
+    """
+    # Convert to bytes for each parameter
+    cmd   = cmd.to_bytes(1, byteorder='big')
+    addr  = addr.to_bytes(4, byteorder='big')
+    dummy = dummy.to_bytes(5, byteorder='big')
+    slave.write(cmd)
+    slave.write(addr)
+    slave.write(dummy, droptail=6)
+    data = slave.read(4)
+
+    return data
+
+def check_chip2spi():
+    """
+    Check SPI transaction receive correctly
+    """
+    addr = find_usb_addr()
+    # Initalize SPI
+    spi = SpiController()
+    spi.configure(addr[0], frequency=1e6)
+    slave = spi.get_port(cs=0)
+    # Read address 100 data 100
+    data = chip2spi(slave, 11, 100)
+    spi.close()
+    print(int.from_bytes(data, byteorder='big'))
 
 # check_board_address()
 # check_simple_spi_2_logic_analyzer()
 # check_continuous_spi()
+# check_spi2chip()
+# check_chip2spi()

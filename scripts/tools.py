@@ -128,9 +128,20 @@ def spi_2_chip(slave, cmd, addr, data):
         addr: 32 bits, address for memory mapping
         data: 32 bits, data for spi transaction
     """
-    cmd = cmd.to_bytes(2, byteorder='big')
+    
+    usb_addr = find_usb_addr()
+    # Initalize SPI
+    spi = SpiController()
+    spi.configure(usb_addr[0], frequency=1e6)
+    slave = spi.get_port(cs=0)
+    # Convert to bytes for each parameter
+    cmd  = cmd.to_bytes(1, byteorder='big')
     addr = addr.to_bytes(4, byteorder='big')
     data = data.to_bytes(4, byteorder='big')
+    slave.write(cmd)
+    slave.write(addr)
+    slave.write(data)
+    spi.close()
 
 # check_board_address()
 # check_simple_spi_2_logic_analyzer()

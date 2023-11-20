@@ -1,0 +1,3 @@
+set SRAM_SUPPLY 0.75
+set SOC_SUPPLY_NOM 0.75
+

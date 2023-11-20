@@ -1,0 +1,492 @@
+/////////////////////////////////////////////////////////////////////////////////////////////
+// Intel Confidential                                                                      //
+/////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright 2022 Intel Corporation. The information contained herein is the proprietary   //
+// and confidential information of Intel or its licensors, and is supplied subject to, and //
+// may be used only in accordance with, previously executed agreements with Intel.         //
+// EXCEPT AS MAY OTHERWISE BE AGREED IN WRITING: (1) ALL MATERIALS FURNISHED BY INTEL      //
+// HEREUNDER ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND; (2) INTEL SPECIFICALLY     //
+// DISCLAIMS ANY WARRANTY OF NONINFRINGEMENT, FITNESS FOR A PARTICULAR PURPOSE OR          //
+// MERCHANTABILITY; AND (3) INTEL WILL NOT BE LIABLE FOR ANY COSTS OF PROCUREMENT OF       //
+// SUBSTITUTES, LOSS OF PROFITS, INTERRUPTION OF BUSINESS, OR FOR ANY OTHER SPECIAL,       //
+// CONSEQUENTIAL OR INCIDENTAL DAMAGES, HOWEVER CAUSED, WHETHER FOR BREACH OF WARRANTY,    //
+// CONTRACT, TORT, NEGLIGENCE, STRICT LIABILITY OR OTHERWISE.                              //
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                         //
+//  Vendor:                Intel Corporation                                               //
+//  Product:               ip224uhdlp1p11rf                                                //
+//  Version:               r1.0.1                                                          //
+//  Technology:            p1222.4                                                         //
+//  Celltype:              MemoryIP                                                        //
+//  IP Owner:              Intel CMO                                                       //
+//  Creation Time:         Wed Sep 14 2022 15:19:58                                        //
+//  Memory Name:           ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h                  //
+//  Memory Name Generated: ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h                  //
+//                                                                                         //
+/////////////////////////////////////////////////////////////////////////////////////////////
+//
+// MOAD Begin
+//     File/Block                             : ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ATPG.v
+//     Design Style [rls|rf|ssa_fuse|sdp|
+//                   custom|hier|rls_hier]    :
+//     Circuit Style [non_rfs|rfs|ssa|fuse|
+//                    IO|ROM|none]            :
+//     Common_lib (for custom blocks only)    :
+//     Library (must be same as module name)  :
+//     Unit [unit id or shared]               :
+//     Complex [North, South, CPU]            :
+//     Bizgroup [LCP|SEG|ULMD]                :
+//
+// Design Unit Owner :
+// Primary Contact   :
+//
+// MOAD End
+//
+//==============================================================
+//
+//  CORE MEMORY (cmem) MODEL template
+//
+//  Based on example model in Fastscan manual for use w/libcomp
+//
+//----------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------
+// ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h
+//--------------------------------------------------------------------------
+
+`celldefine
+module ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h (
+        clk 
+    `ifndef INTC_NO_PWR_PINS
+ 	,vddp
+         ,vss
+    `endif
+        ,adr
+        ,wen
+        ,din
+        ,ren
+        ,q
+
+        ,mcen	
+        ,mc
+        
+        ,clkbyp
+
+        ,wa
+        ,wpulse
+        ,wpulseen
+        ,fwen
+        
+        ,sleep                         //Light Sleep Enable
+        ,bc1                   //Voltage control
+        ,bc2
+        ,deepslp
+        ,shutoff
+        ,mpr
+        
+);
+    `ifndef INTC_NO_PWR_PINS
+        input vddp;
+        input	 vss;	
+    `endif
+        input           clk;
+        input [10:0]     adr;
+        input wen;
+        input [31:0]            din;
+        
+
+	input mcen;
+	input [2:0] mc;
+
+	input clkbyp;
+        input [1:0] wa;
+        input [1:0] wpulse;
+        input wpulseen;
+        input fwen;
+
+        input sleep;               
+        input bc1;                
+        input bc2;
+        input deepslp;
+        input shutoff;
+        output mpr;
+        input                   ren;
+        output [31:0]           q;
+
+  // firewall pins
+ wire [10:0] adr_fw;
+ wire iwenp0_fw;
+ wire [31:0] idinp0_fw;
+ 
+ 
+ // latched signal pins
+ 
+ wire [10:0] wraddrp0_lat;
+ wire [10:0] rdaddrp0_lat;
+
+ wire wrenp0_lat;
+ wire rdenp0_lat;
+ 
+ wire clkbyp_fw_1l;
+ wire clkbyp_fw_1h;
+ 
+
+ wire [31:0] idinp0_lat;
+
+ // internals
+
+ wire [31:0] do_cramp0;
+
+// firewall/power enable logic
+  wire fwen_pwr;
+  wire ipwrenin;
+
+  assign fwenoutp0 = 0;
+
+assign pwrgate = shutoff;
+//  not in_fwenoutp0  (fwenoutp0, 1);
+
+  not pwr_b    (ipwrenin,  shutoff);
+  not genmpr   (mpr, ipwrenin);
+  not ifwenb    (fwenb,fwen);
+  not deepslp__b   (deepslp_b,deepslp);
+  and fw_pwr (fwen_pwr, fwenb, ipwrenin, deepslp_b);
+  
+  // firewall gates
+
+  not  isleep		 (sleep_b,sleep);
+  and  an_f_ckwr0        (clk_fw, fwenb, clk);
+  and  an_f_rden0        (irenp0_fw, fwen_pwr, sleep_b, deepslp_b, ren);
+  and  an_f_wren0        (iwenp0_fw, fwen_pwr, sleep_b, deepslp_b, wen);
+ 
+  and  an_clkbyp_fw      (clkbyp_fw, fwen_pwr, sleep_b, deepslp_b, clkbyp);
+
+  or resetoutp0	 (reset_outp0,fwenoutp0,pwrgate);	  
+  
+// The following ripped version is for Tetramax compatibility
+
+  and an_f_01_0 (adr_fw[0], fwenb, adr[0]);
+  and an_f_01_1 (adr_fw[1], fwenb, adr[1]);
+  and an_f_01_2 (adr_fw[2], fwenb, adr[2]);
+  and an_f_01_3 (adr_fw[3], fwenb, adr[3]);
+  and an_f_01_4 (adr_fw[4], fwenb, adr[4]);
+  and an_f_01_5 (adr_fw[5], fwenb, adr[5]);
+  and an_f_01_6 (adr_fw[6], fwenb, adr[6]);
+  and an_f_01_7 (adr_fw[7], fwenb, adr[7]);
+  and an_f_01_8 (adr_fw[8], fwenb, adr[8]);
+  and an_f_01_9 (adr_fw[9], fwenb, adr[9]);
+  and an_f_01_10 (adr_fw[10], fwenb, adr[10]);
+
+  and an_f_05_0 (idinp0_fw[0], fwenb, din[0]);
+  and an_f_05_1 (idinp0_fw[1], fwenb, din[1]);
+  and an_f_05_2 (idinp0_fw[2], fwenb, din[2]);
+  and an_f_05_3 (idinp0_fw[3], fwenb, din[3]);
+  and an_f_05_4 (idinp0_fw[4], fwenb, din[4]);
+  and an_f_05_5 (idinp0_fw[5], fwenb, din[5]);
+  and an_f_05_6 (idinp0_fw[6], fwenb, din[6]);
+  and an_f_05_7 (idinp0_fw[7], fwenb, din[7]);
+  and an_f_05_8 (idinp0_fw[8], fwenb, din[8]);
+  and an_f_05_9 (idinp0_fw[9], fwenb, din[9]);
+  and an_f_05_10 (idinp0_fw[10], fwenb, din[10]);
+  and an_f_05_11 (idinp0_fw[11], fwenb, din[11]);
+  and an_f_05_12 (idinp0_fw[12], fwenb, din[12]);
+  and an_f_05_13 (idinp0_fw[13], fwenb, din[13]);
+  and an_f_05_14 (idinp0_fw[14], fwenb, din[14]);
+  and an_f_05_15 (idinp0_fw[15], fwenb, din[15]);
+  and an_f_05_16 (idinp0_fw[16], fwenb, din[16]);
+  and an_f_05_17 (idinp0_fw[17], fwenb, din[17]);
+  and an_f_05_18 (idinp0_fw[18], fwenb, din[18]);
+  and an_f_05_19 (idinp0_fw[19], fwenb, din[19]);
+  and an_f_05_20 (idinp0_fw[20], fwenb, din[20]);
+  and an_f_05_21 (idinp0_fw[21], fwenb, din[21]);
+  and an_f_05_22 (idinp0_fw[22], fwenb, din[22]);
+  and an_f_05_23 (idinp0_fw[23], fwenb, din[23]);
+  and an_f_05_24 (idinp0_fw[24], fwenb, din[24]);
+  and an_f_05_25 (idinp0_fw[25], fwenb, din[25]);
+  and an_f_05_26 (idinp0_fw[26], fwenb, din[26]);
+  and an_f_05_27 (idinp0_fw[27], fwenb, din[27]);
+  and an_f_05_28 (idinp0_fw[28], fwenb, din[28]);
+  and an_f_05_29 (idinp0_fw[29], fwenb, din[29]);
+  and an_f_05_30 (idinp0_fw[30], fwenb, din[30]);
+  and an_f_05_31 (idinp0_fw[31], fwenb, din[31]);
+
+
+
+// latches for signal pins
+
+  not clkrd0_fw_b       (clk_fw_b,clk_fw );
+
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT lat_rden0       (rdenp0_lat, 1'b0, 1'b0, clk_fw_b, irenp0_fw);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT lat_wren0       (wrenp0_lat, 1'b0, 1'b0, clk_fw_b, iwenp0_fw);
+
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT lat_clkbyp_fw_1l (clkbyp_fw_1l, 1'b0, 1'b0, clk_fw_b, clkbyp_fw);
+
+  and an_rden_clkby_1l   (rden_clkbyp_1l, rdenp0_lat, clkbyp_fw_1l );
+
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT lat_rden_clkbyp_1h (rden_clkbyp_1h, 1'b0, 1'b0, clk_fw, rden_clkbyp_1l);
+ 
+  not in_clkbyp_fw_1l_b   (clkbyp_fw_1l_b, clkbyp_fw_1l );
+  and an_selftime_ckrden  (ckrden_selftime, clk_fw, rdenp0_lat, clkbyp_fw_1l_b );
+
+  and an_sync_ckrden  (ckrden_sync, clk_fw_b, rden_clkbyp_1h );
+
+  or or_ckrden (ckrdp0_int, ckrden_selftime, ckrden_sync);
+
+//  and clkrd0_and	   (ckrdp0_int,clk_fw,rdenp0_lat );
+  and clkwr0_and	   (ckwrp0_int,clk_fw,wrenp0_lat );
+  
+  not clkrd0_b       (ckrdp0_b,ckrdp0_int );
+  not clkwr0_b       (ckwrp0_b,ckwrp0_int );
+  
+
+
+// The following ripped version of the above line is for Tetramax compatibility
+
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_0 (idinp0_lat[0], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[0]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_1 (idinp0_lat[1], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[1]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_2 (idinp0_lat[2], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[2]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_3 (idinp0_lat[3], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[3]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_4 (idinp0_lat[4], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[4]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_5 (idinp0_lat[5], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[5]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_6 (idinp0_lat[6], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[6]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_7 (idinp0_lat[7], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[7]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_8 (idinp0_lat[8], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[8]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_9 (idinp0_lat[9], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[9]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_10 (idinp0_lat[10], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[10]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_11 (idinp0_lat[11], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[11]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_12 (idinp0_lat[12], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[12]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_13 (idinp0_lat[13], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[13]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_14 (idinp0_lat[14], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[14]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_15 (idinp0_lat[15], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[15]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_16 (idinp0_lat[16], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[16]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_17 (idinp0_lat[17], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[17]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_18 (idinp0_lat[18], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[18]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_19 (idinp0_lat[19], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[19]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_20 (idinp0_lat[20], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[20]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_21 (idinp0_lat[21], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[21]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_22 (idinp0_lat[22], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[22]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_23 (idinp0_lat[23], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[23]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_24 (idinp0_lat[24], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[24]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_25 (idinp0_lat[25], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[25]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_26 (idinp0_lat[26], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[26]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_27 (idinp0_lat[27], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[27]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_28 (idinp0_lat[28], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[28]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_29 (idinp0_lat[29], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[29]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_30 (idinp0_lat[30], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[30]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT datap0_lat_31 (idinp0_lat[31], 1'b0, 1'b0, ckwrp0_b, idinp0_fw[31]);
+
+
+// The following ripped version of the above line is for Tetramax compatibility
+
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT rdaddrp0_lat_0 (rdaddrp0_lat[0], 1'b0,1'b0,ckrdp0_b , adr_fw[0]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT rdaddrp0_lat_1 (rdaddrp0_lat[1], 1'b0,1'b0,ckrdp0_b , adr_fw[1]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT rdaddrp0_lat_2 (rdaddrp0_lat[2], 1'b0,1'b0,ckrdp0_b , adr_fw[2]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT rdaddrp0_lat_3 (rdaddrp0_lat[3], 1'b0,1'b0,ckrdp0_b , adr_fw[3]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT rdaddrp0_lat_4 (rdaddrp0_lat[4], 1'b0,1'b0,ckrdp0_b , adr_fw[4]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT rdaddrp0_lat_5 (rdaddrp0_lat[5], 1'b0,1'b0,ckrdp0_b , adr_fw[5]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT rdaddrp0_lat_6 (rdaddrp0_lat[6], 1'b0,1'b0,ckrdp0_b , adr_fw[6]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT rdaddrp0_lat_7 (rdaddrp0_lat[7], 1'b0,1'b0,ckrdp0_b , adr_fw[7]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT rdaddrp0_lat_8 (rdaddrp0_lat[8], 1'b0,1'b0,ckrdp0_b , adr_fw[8]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT rdaddrp0_lat_9 (rdaddrp0_lat[9], 1'b0,1'b0,ckrdp0_b , adr_fw[9]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT rdaddrp0_lat_10 (rdaddrp0_lat[10], 1'b0,1'b0,ckrdp0_b , adr_fw[10]);
+
+
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT wraddrp0_lat_0 (wraddrp0_lat[0], 1'b0,1'b0,ckwrp0_b , adr_fw[0]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT wraddrp0_lat_1 (wraddrp0_lat[1], 1'b0,1'b0,ckwrp0_b , adr_fw[1]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT wraddrp0_lat_2 (wraddrp0_lat[2], 1'b0,1'b0,ckwrp0_b , adr_fw[2]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT wraddrp0_lat_3 (wraddrp0_lat[3], 1'b0,1'b0,ckwrp0_b , adr_fw[3]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT wraddrp0_lat_4 (wraddrp0_lat[4], 1'b0,1'b0,ckwrp0_b , adr_fw[4]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT wraddrp0_lat_5 (wraddrp0_lat[5], 1'b0,1'b0,ckwrp0_b , adr_fw[5]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT wraddrp0_lat_6 (wraddrp0_lat[6], 1'b0,1'b0,ckwrp0_b , adr_fw[6]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT wraddrp0_lat_7 (wraddrp0_lat[7], 1'b0,1'b0,ckwrp0_b , adr_fw[7]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT wraddrp0_lat_8 (wraddrp0_lat[8], 1'b0,1'b0,ckwrp0_b , adr_fw[8]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT wraddrp0_lat_9 (wraddrp0_lat[9], 1'b0,1'b0,ckwrp0_b , adr_fw[9]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT wraddrp0_lat_10 (wraddrp0_lat[10], 1'b0,1'b0,ckwrp0_b , adr_fw[10]);
+
+
+
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_0 (q[0], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[0]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_1 (q[1], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[1]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_2 (q[2], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[2]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_3 (q[3], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[3]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_4 (q[4], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[4]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_5 (q[5], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[5]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_6 (q[6], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[6]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_7 (q[7], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[7]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_8 (q[8], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[8]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_9 (q[9], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[9]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_10 (q[10], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[10]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_11 (q[11], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[11]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_12 (q[12], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[12]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_13 (q[13], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[13]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_14 (q[14], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[14]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_15 (q[15], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[15]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_16 (q[16], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[16]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_17 (q[17], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[17]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_18 (q[18], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[18]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_19 (q[19], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[19]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_20 (q[20], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[20]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_21 (q[21], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[21]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_22 (q[22], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[22]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_23 (q[23], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[23]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_24 (q[24], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[24]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_25 (q[25], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[25]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_26 (q[26], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[26]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_27 (q[27], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[27]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_28 (q[28], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[28]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_29 (q[29], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[29]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_30 (q[30], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[30]);
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT latp0_31 (q[31], 1'b0, reset_outp0, ckrdp0_int, do_cramp0[31]);
+
+
+// _cram core
+
+  ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_tmem_2048x32 ramxx(
+     .rad1(rdaddrp0_lat)
+	,.wad1(wraddrp0_lat)
+    ,.we1(ckwrp0_int)
+    ,.di1(idinp0_lat)
+    ,.re1(ckrdp0_int)
+
+    ,.do1(do_cramp0)
+  );
+
+endmodule // ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h
+
+`endcelldefine
+
+
+// --------------------------------------------------------------------------
+// Level Latch primitive (translatable by libcomp, infers _dlat)
+//
+// Good ATPG coverage
+// --------------------------------------------------------------------------
+primitive ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT(Q, S, R, CK, D);
+  output Q;
+  input  S, R, CK, D;
+  reg    Q;
+  table
+// S  R  CK  D   :  Q  :  Q(t+1)
+   ?  0  1   1   :  ?  :  1  ; // 
+   0  ?  1   0   :  ?  :  0  ; // 
+   ?  0  *   1   :  1  :  1  ; // Clock transition
+   0  ?  *   0   :  0  :  0  ; // Clock transition
+      0  0  0   *   :  ?  :  -  ; // No change when data transitions
+   1  ?  ?   ?   :  ?  :  1  ; // Set
+   *  0  0   ?   :  1  :  1  ; // Set transistions
+   *  0  ?   1   :  1  :  1  ; // Set transistions
+   0  1  ?   ?   :  ?  :  0  ; // Reset
+   0  *  0   ?   :  0  :  0  ; // Reset transistions
+   0  *  ?   0   :  0  :  0  ; // Reset transistions
+  endtable
+endprimitive // ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ASYNC_RST_LAT
+
+
+
+
+
+// --------------------------------------------------------------------------
+// ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_tmem_2048x32
+// --------------------------------------------------------------------------
+// Never try to synthesize this module!
+// synopsys translate_off
+module ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_tmem_2048x32 (
+   rad1
+  ,wad1
+  ,we1
+  ,di1
+  ,re1
+
+  ,do1
+);
+
+  input  [10:0] rad1;
+  input  [10:0] wad1;  
+  input         we1;
+  input  [31:0] di1;
+  input         re1;
+
+  output [31:0] do1;
+
+// ----------------------------------------------------------------------------
+// port 1
+// ----------------------------------------------------------------------------
+
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_0 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[0]),.re1(re1),.do1(do1[0]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_1 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[1]),.re1(re1),.do1(do1[1]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_2 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[2]),.re1(re1),.do1(do1[2]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_3 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[3]),.re1(re1),.do1(do1[3]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_4 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[4]),.re1(re1),.do1(do1[4]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_5 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[5]),.re1(re1),.do1(do1[5]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_6 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[6]),.re1(re1),.do1(do1[6]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_7 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[7]),.re1(re1),.do1(do1[7]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_8 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[8]),.re1(re1),.do1(do1[8]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_9 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[9]),.re1(re1),.do1(do1[9]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_10 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[10]),.re1(re1),.do1(do1[10]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_11 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[11]),.re1(re1),.do1(do1[11]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_12 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[12]),.re1(re1),.do1(do1[12]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_13 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[13]),.re1(re1),.do1(do1[13]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_14 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[14]),.re1(re1),.do1(do1[14]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_15 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[15]),.re1(re1),.do1(do1[15]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_16 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[16]),.re1(re1),.do1(do1[16]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_17 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[17]),.re1(re1),.do1(do1[17]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_18 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[18]),.re1(re1),.do1(do1[18]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_19 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[19]),.re1(re1),.do1(do1[19]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_20 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[20]),.re1(re1),.do1(do1[20]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_21 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[21]),.re1(re1),.do1(do1[21]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_22 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[22]),.re1(re1),.do1(do1[22]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_23 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[23]),.re1(re1),.do1(do1[23]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_24 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[24]),.re1(re1),.do1(do1[24]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_25 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[25]),.re1(re1),.do1(do1[25]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_26 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[26]),.re1(re1),.do1(do1[26]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_27 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[27]),.re1(re1),.do1(do1[27]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_28 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[28]),.re1(re1),.do1(do1[28]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_29 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[29]),.re1(re1),.do1(do1[29]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_30 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[30]),.re1(re1),.do1(do1[30]));
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 sl_31 (.rad1(rad1), .wad1(wad1),.we1(we1),.di1(di1[31]),.re1(re1),.do1(do1[31]));
+
+
+
+endmodule // ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_tmem_2048x32
+
+`define read_write xword
+
+//`ifndef ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1
+
+module ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1 (rad1, wad1, we1, di1, re1,do1);
+  input  [10:0] rad1;
+  input  [10:0] wad1;  
+  input         we1;  
+  input  di1;
+  input         re1;
+
+  output   do1;
+  reg     do1;  
+  reg           mem [0:2047];
+
+
+
+  event         WRITE_OP;
+
+  always @(we1 or wad1 or di1) if (we1) begin
+    mem[wad1] <= di1;
+    #0; ->WRITE_OP;
+  end
+
+  always @(re1 or rad1 or WRITE_OP) if (re1) begin
+    do1 <= mem[rad1];
+  end
+  
+
+endmodule // ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ramNx1
+//`endif
+`undef read_write
+
+
+// synopsys translate_on
+//=============================================================================
+// END of ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h_ATPG.v
+//=============================================================================
+
+

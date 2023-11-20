@@ -1,0 +1,291 @@
+32       
+0 prim_assert.sv
+0 /usr/caen/vcs-2017.12-SP2-1/etc/systemverilog/prim_assert.sv
+0 ./prim_assert.sv
+0 ../hw/ip/opentitan/dv/sv/dv_utils/prim_assert.sv
+0 prim_assert_standard_macros.svh
+0 /usr/caen/vcs-2017.12-SP2-1/etc/systemverilog/prim_assert_standard_macros.svh
+0 ./prim_assert_standard_macros.svh
+0 ../hw/ip/opentitan/dv/sv/dv_utils/prim_assert_standard_macros.svh
+0 prim_assert_sec_cm.svh
+0 /usr/caen/vcs-2017.12-SP2-1/etc/systemverilog/prim_assert_sec_cm.svh
+0 ./prim_assert_sec_cm.svh
+0 ../hw/ip/opentitan/dv/sv/dv_utils/prim_assert_sec_cm.svh
+0 prim_flop_macros.sv
+0 /usr/caen/vcs-2017.12-SP2-1/etc/systemverilog/prim_flop_macros.sv
+0 ./prim_flop_macros.sv
+0 ../hw/ip/opentitan/dv/sv/dv_utils/prim_flop_macros.sv
+0 prim_util_get_scramble_params.svh
+0 /usr/caen/vcs-2017.12-SP2-1/etc/systemverilog/prim_util_get_scramble_params.svh
+0 ./prim_util_get_scramble_params.svh
+0 ../hw/ip/opentitan/dv/sv/dv_utils/prim_util_get_scramble_params.svh
+0 dv_fcov_macros.svh
+0 /usr/caen/vcs-2017.12-SP2-1/etc/systemverilog/dv_fcov_macros.svh
+0 ./dv_fcov_macros.svh
+0 prim_util_memload.svh
+0 /usr/caen/vcs-2017.12-SP2-1/etc/systemverilog/prim_util_memload.svh
+0 ./prim_util_memload.svh
+0 ../hw/ip/opentitan/dv/sv/dv_utils/prim_util_memload.svh
+0 ibex_pmp_reset_default.svh
+0 /usr/caen/vcs-2017.12-SP2-1/etc/systemverilog/ibex_pmp_reset_default.svh
+0 ./ibex_pmp_reset_default.svh
+0 ../hw/ip/opentitan/dv/sv/dv_utils/ibex_pmp_reset_default.svh
+0 ../hw/ip/opentitan/ip/prim/rtl/ibex_pmp_reset_default.svh
+40
++define+INTCNOPWR
++define+INTC_NO_PWR_PINS
++define+INTEL_EMULATION
++define+INTEL_NO_PWR_PINS
++itf+/usr/caen/vcs-2017.12-SP2-1/linux64/lib/vcsdp_lite.tab
++nospecify
++notimingcheck
++v2k
++vc
++vcsd1
++vpi
+-Mamsrun=
+-Masflags=
+-Mcc=gcc
+-Mcfl= -pipe -fPIC -O -I/usr/caen/vcs-2017.12-SP2-1/include
+-Mcplusplus=g++
+-Mcrt0=
+-Mcrtn=
+-Mcsrc=
+-Mexternalobj=
+-Mldflags= -rdynamic
+-Mobjects= /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libvirsim.so /usr/caen/vcs-2017.12-SP2-1/linux64/lib/liberrorinf.so /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libsnpsmalloc.so /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libvfs.so
+-Mout=simv
+-Msaverestoreobj=/usr/caen/vcs-2017.12-SP2-1/linux64/lib/vcs_save_restore_new.o
+-Msyslibs=-ldl
+-Mupdate
+-Mvcsaceobjs=
+-Mxcflags= -pipe -fPIC -I/usr/caen/vcs-2017.12-SP2-1/include
+-assert
+-debug_access+r
+-f vc/gpio.vc
+-full64
+-gen_obj
+-line
+-o simv
+-override_timescale=1ns/1ps
+-picarchive
+-sverilog
+/usr/caen/vcs-2017.12-SP2-1/linux64/bin/vcs1
+svaext
+62
+sysc_uni_pwd=/n/houghton/z/minghung/TestSetup-Intel16OpenTitanSoC/src/tb
+_LMFILES_=/usr/caen/misc/modules/python/3.7.3:/usr/caen/misc/modules/riscv/9.2:/afs/eecs.umich.edu/cadre/software/openroad/modules/devtoolset-el7/8:/afs/eecs.umich.edu/cadre/software/openroad/modules/cmake/3.24.0:/afs/eecs.umich.edu/cadre/software/openroad/modules/boost/1.68.0:/afs/eecs.umich.edu/cadre/software/openroad/modules/swig-rhel7/4.0.1:/afs/eecs.umich.edu/cadre/software/openroad/modules/tcl-devel/8.5.7-6:/afs/eecs.umich.edu/cadre/software/modules/spdlog/1.8.5:/afs/eecs.umich.edu/cadre/software/openroad/modules/zlib/1.2.7:/afs/eecs.umich.edu/cadre/software/modules/lemon/1.3.1:/afs/eecs.umich.edu/cadre/software/openroad/modules/eigen/3.3.7:/afs/eecs.umich.edu/cadre/software/openroad/modules/tcl-tclreadline/2.1.0:/afs/eecs.umich.edu/cadre/software/openroad/modules/bison/3.0.1:/afs/eecs.umich.edu/cadre/software/openroad/modules/libffi-devel/3.0.5:/afs/eecs.umich.edu/cadre/software/openroad/modules/readline-devel/6.0-4:/afs/eecs.umich.edu/cadre/software/openroad/modules/qt5-qtbase-devel/5.9.7:/afs/eecs.umich.edu/cadre/software/modules/python/3.8.11:/afs/eecs.umich.edu/cadre/software/modules/anaconda3/2018.12:/afs/eecs.umich.edu/cadre/software/modules/klayout-el7/0.27.3:/afs/eecs.umich.edu/cadre/software/openroad/modules/or-tools/9.4.1874:/usr/caen/misc/modules/vcs/2017.12-SP2-1:/usr/caen/misc/modules/calibre/2022.2_15.10_aoi:/usr/caen/misc/modules/synopsys-icv/2022.03-SP2:/usr/caen/misc/modules/synopsys-icvwb/2021.06:/usr/caen/misc/modules/synopsys-synth/2021.06-SP4:/usr/caen/misc/modules/starrc/2022.03-SP3:/usr/caen/misc/modules/primetime/2021.06-SP4:/usr/caen/misc/modules/synopsys-lib-compiler/2022.03-SP3
+XDG_SESSION_ID=6698
+XDG_RUNTIME_DIR=/run/user/114249946
+XDG_DATA_DIRS=/n/houghton/z/minghung/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
+VMR_MODE_FLAG=64
+VCS_MODE_FLAG=64
+VCS_HOME=/usr/caen/vcs-2017.12-SP2-1
+VCS_DEPTH=0
+VCS_ARG_ADDED_FOR_TMP=1
+VCS_ARCH=linux64
+UNAME=/bin/uname
+TOOL_HOME=/usr/caen/vcs-2017.12-SP2-1/linux64
+TB=./
+SYNOPSYS_LC_ROOT=/usr/caen/synopsys-lib-compiler-2022.03-SP3
+SYNOPSYS=/usr/caen/synopsys-synth-2021.06-SP4
+SWIG_LIB=/afs/eecs.umich.edu/cadre/software/openroad/swig-rhel7-4.0.1/share/swig/4.0.1
+SSH_TTY=/dev/pts/14
+SSH_CONNECTION=141.212.115.60 33262 10.161.2.48 22
+SSH_CLIENT=141.212.115.60 33262 22
+SPECTRE_DEFAULTS=-E
+SNPS_VCS_CLANG_PATH=/fs/src/interfaces/LLVM_Project/QSCM/opt/llvm-3.9.1/linux64
+SCRNAME=vcs
+SCRIPT_NAME=vcs
+RISCV_TOOLCHAIN=/usr/um/riscv-9.2
+RISCV_OBJCOPY=/usr/um/riscv-9.2/bin/riscv64-unknown-elf-objcopy
+RISCV_GCC=/usr/um/riscv-9.2/bin/riscv64-unknown-elf-gcc
+QT_GRAPHICSSYSTEM_CHECKED=1
+OVA_UUM=0
+OPENTITAN=../hw/ip/opentitan/ip
+NLTK_DATA=/usr/um/python-3.7.3/share/nltk_data
+MODULESHOME=/usr/share/Modules
+MODULEPATH=/afs/eecs.umich.edu/cadre/software/openroad/modules:/afs/eecs.umich.edu/cadre/software/modules:/usr/share/Modules/modulefiles:/etc/modulefiles:/usr/caen/misc/modules:/afs/umich.edu/class/coe/modules
+MGLS_LICENSE_FILE=/usr/caen/FLEXlm/data/license.dat.mentor
+MGC_HOME=/usr/caen/calibre-2022.2_15.10/aoi
+MFLAGS=
+MEM=../hw/ip/memory/ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h/rtl
+MAKE_TERMOUT=/dev/pts/14
+MAKE_TERMERR=/dev/pts/14
+MAKELEVEL=1
+MAKEFLAGS=
+LOADEDMODULES=python/3.7.3:riscv/9.2:devtoolset-el7/8:cmake/3.24.0:boost/1.68.0:swig-rhel7/4.0.1:tcl-devel/8.5.7-6:spdlog/1.8.5:zlib/1.2.7:lemon/1.3.1:eigen/3.3.7:tcl-tclreadline/2.1.0:bison/3.0.1:libffi-devel/3.0.5:readline-devel/6.0-4:qt5-qtbase-devel/5.9.7:python/3.8.11:anaconda3/2018.12:klayout-el7/0.27.3:or-tools/9.4.1874:vcs/2017.12-SP2-1:calibre/2022.2_15.10_aoi:synopsys-icv/2022.03-SP2:synopsys-icvwb/2021.06:synopsys-synth/2021.06-SP4:starrc/2022.03-SP3:primetime/2021.06-SP4:synopsys-lib-compiler/2022.03-SP3
+LIBRARY_PATH=/afs/eecs.umich.edu/cadre/software/openroad/or-tools-9.4.1874/lib64:/afs/eecs.umich.edu/cadre/software/python-3.8.11/lib:/afs/eecs.umich.edu/cadre/software/openroad/qt5-qtbase-devel-5.9.7/lib64:/afs/eecs.umich.edu/cadre/software/openroad/readline-devel-6.0-4/lib64:/afs/eecs.umich.edu/cadre/software/openroad/libffi-devel-3.0.5/lib64:/afs/eecs.umich.edu/cadre/software/openroad/bison-3.0.1/lib:/afs/eecs.umich.edu/cadre/software/openroad/tcl-tclreadline-2.1.0/lib64:/afs/eecs.umich.edu/cadre/software/lemon-1.3.1/lib:/afs/eecs.umich.edu/cadre/software/openroad/zlib-1.2.7/lib:/afs/eecs.umich.edu/cadre/software/spdlog-1.8.5/lib64:/afs/eecs.umich.edu/cadre/software/openroad/tcl-devel-8.5.7-6/lib64:/afs/eecs.umich.edu/cadre/software/openroad/boost-1.68.0/lib:/afs/eecs.umich.edu/cadre/software/openroad/devtoolset-el7-8/lib:/afs/eecs.umich.edu/cadre/software/openroad/devtoolset-el7-8/lib64:/afs/eecs.umich.edu/cadre/software/openroad/devtoolset-el7-8/lib/gcc/x86_64-redhat-linux/8
+LESSOPEN=||/usr/bin/lesspipe.sh %s
+LD_RUN_PATH=/afs/eecs.umich.edu/cadre/software/openroad/or-tools-9.4.1874/lib64:/afs/eecs.umich.edu/cadre/software/openroad/qt5-qtbase-devel-5.9.7/lib64:/afs/eecs.umich.edu/cadre/software/openroad/readline-devel-6.0-4/lib64:/afs/eecs.umich.edu/cadre/software/openroad/libffi-devel-3.0.5/lib64:/afs/eecs.umich.edu/cadre/software/openroad/bison-3.0.1/lib:/afs/eecs.umich.edu/cadre/software/openroad/tcl-tclreadline-2.1.0/lib64:/afs/eecs.umich.edu/cadre/software/lemon-1.3.1/lib:/afs/eecs.umich.edu/cadre/software/openroad/zlib-1.2.7/lib:/afs/eecs.umich.edu/cadre/software/openroad/tcl-devel-8.5.7-6/lib64:/afs/eecs.umich.edu/cadre/software/openroad/boost-1.68.0/lib:/afs/eecs.umich.edu/cadre/software/openroad/devtoolset-el7-8/lib:/afs/eecs.umich.edu/cadre/software/openroad/devtoolset-el7-8/lib64:/afs/eecs.umich.edu/cadre/software/openroad/devtoolset-el7-8/lib/gcc/x86_64-redhat-linux/8
+LC_ALL=C
+ITERM_PREV_PS1=\[]133;D;$?]133;A\]\[\e]0;\u@\h: \w\a\]\[\033[0;37m\]\n[\!][\d \t][\w]\n\[\033[1;97m\]< \342\206\252 \342\234\664 \[\033[0;92m\]\u\[\033[0;97m\]@\[\033[0;91m\]\h\[\033[0;97m\]:\[\033[1;96m\] \W\[\033[1;97m\] > \[]133;B\]
+ITERM_ORIG_PS1=\[\e]0;\u@\h: \w\a\]\[\033[0;37m\]\n[\!][\d \t][\w]\n\[\033[1;97m\]< \342\206\252 \342\234\664 \[\033[0;92m\]\u\[\033[0;97m\]@\[\033[0;91m\]\h\[\033[0;97m\]:\[\033[1;96m\] \W\[\033[1;97m\] > 
+IP=../hw/ip
+ICV_HOME_DIR=/usr/caen/synopsys-icv-2022.03-SP2
+IBEX=../hw/ip/opentitan/lowrisc_ibex
+HW=../hw
+HISTCONTROL=ignoreboth
+CXX=/afs/eecs.umich.edu/cadre/software/openroad/devtoolset-el7-8/bin/g++
+CPP=/afs/eecs.umich.edu/cadre/software/openroad/devtoolset-el7-8/bin/cpp
+CPATH=/afs/eecs.umich.edu/cadre/software/python-3.8.11/include:/afs/eecs.umich.edu/cadre/software/openroad/qt5-qtbase-devel-5.9.7/include:/afs/eecs.umich.edu/cadre/software/openroad/readline-devel-6.0-4/include:/afs/eecs.umich.edu/cadre/software/openroad/libffi-devel-3.0.5/lib64/libffi-3.0.5/include:/afs/eecs.umich.edu/cadre/software/openroad/bison-3.0.1/include:/afs/eecs.umich.edu/cadre/software/openroad/tcl-tclreadline-2.1.0/include:/afs/eecs.umich.edu/cadre/software/openroad/eigen-3.3.7/include:/afs/eecs.umich.edu/cadre/software/lemon-1.3.1/include:/afs/eecs.umich.edu/cadre/software/openroad/zlib-1.2.7/include:/afs/eecs.umich.edu/cadre/software/spdlog-1.8.5/include:/afs/eecs.umich.edu/cadre/software/openroad/tcl-devel-8.5.7-6/include:/afs/eecs.umich.edu/cadre/software/openroad/boost-1.68.0/include:/afs/eecs.umich.edu/cadre/software/openroad/devtoolset-el7-8/include
+CMAKE_PREFIX_PATH=/afs/eecs.umich.edu/cadre/software/openroad/or-tools-9.4.1874/lib64/cmake:/afs/eecs.umich.edu/cadre/software/openroad/qt5-qtbase-devel-5.9.7/lib64/cmake:/afs/eecs.umich.edu/cadre/software/openroad/eigen-3.3.7:/afs/eecs.umich.edu/cadre/software/lemon-1.3.1:/afs/eecs.umich.edu/cadre/software/spdlog-1.8.5
+CDS_Netlisting_Mode=Analog
+CDS_AUTO_64BIT=ALL
+CC=/afs/eecs.umich.edu/cadre/software/openroad/devtoolset-el7-8/bin/gcc
+CALIBRE_HOME=/usr/caen/calibre-2022.2_15.10/aoi
+BASH_FUNC_module()=() {  eval `/usr/bin/modulecmd bash $*`_}
+0
+145
+1700453529 ../hw/ip/memory/ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h/rtl/ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h.sv
+1700453517 ../hw/ip/opentitan/lowrisc_ibex/rtl/ibex_fetch_fifo.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_secded_inv_28_22_enc.sv
+1700453521 ../hw/ip/opentitan/ip/prim/rtl/prim_secded_inv_28_22_dec.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_lfsr.sv
+1700453517 ../hw/ip/opentitan/lowrisc_ibex/rtl/ibex_prefetch_buffer.sv
+1700453517 ../hw/ip/opentitan/lowrisc_ibex/rtl/ibex_multdiv_slow.sv
+1700453517 ../hw/ip/opentitan/lowrisc_ibex/rtl/ibex_multdiv_fast.sv
+1700453517 ../hw/ip/opentitan/lowrisc_ibex/rtl/ibex_icache.sv
+1700453517 ../hw/ip/opentitan/lowrisc_ibex/rtl/ibex_dummy_instr.sv
+1700453517 ../hw/ip/opentitan/lowrisc_ibex/rtl/ibex_decoder.sv
+1700453517 ../hw/ip/opentitan/lowrisc_ibex/rtl/ibex_csr.sv
+1700453517 ../hw/ip/opentitan/lowrisc_ibex/rtl/ibex_counter.sv
+1700453517 ../hw/ip/opentitan/lowrisc_ibex/rtl/ibex_controller.sv
+1700453517 ../hw/ip/opentitan/lowrisc_ibex/rtl/ibex_compressed_decoder.sv
+1700453517 ../hw/ip/opentitan/lowrisc_ibex/rtl/ibex_branch_predict.sv
+1700453517 ../hw/ip/opentitan/lowrisc_ibex/rtl/ibex_alu.sv
+1700453520 ../hw/ip/opentitan/ip/prim_generic/rtl/prim_generic_clock_mux2.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_secded_inv_hamming_39_32_enc.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_secded_inv_hamming_39_32_dec.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_secded_inv_hamming_22_16_enc.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_secded_inv_hamming_22_16_dec.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_secded_inv_22_16_enc.sv
+1700453521 ../hw/ip/opentitan/ip/prim/rtl/prim_secded_inv_22_16_dec.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_count.sv
+1700453516 ../hw/ip/dc_fifo/onehot_to_bin.sv
+1700453517 ../hw/ip/opentitan/lowrisc_ibex/rtl/ibex_wb_stage.sv
+1700453517 ../hw/ip/opentitan/lowrisc_ibex/rtl/ibex_pmp.sv
+1700453517 ../hw/ip/opentitan/lowrisc_ibex/rtl/ibex_load_store_unit.sv
+1700453517 ../hw/ip/opentitan/lowrisc_ibex/rtl/ibex_if_stage.sv
+1700453517 ../hw/ip/opentitan/lowrisc_ibex/rtl/ibex_id_stage.sv
+1700453517 ../hw/ip/opentitan/lowrisc_ibex/rtl/ibex_ex_block.sv
+1700453517 ../hw/ip/opentitan/lowrisc_ibex/rtl/ibex_pmp_reset_default.svh
+1700453517 ../hw/ip/opentitan/lowrisc_ibex/rtl/ibex_cs_registers.sv
+1700453523 ../hw/ip/opentitan/ip/tlul/rtl/tlul_data_integ_dec.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_util_memload.svh
+1700453520 ../hw/ip/opentitan/ip/prim_generic/rtl/prim_generic_ram_1p.sv
+1700453520 ../hw/ip/opentitan/ip/prim_generic/rtl/prim_generic_flop.sv
+1700453520 ../hw/ip/opentitan/ip/prim_generic/rtl/prim_generic_clock_gating.sv
+1700453520 ../hw/ip/opentitan/ip/prim_generic/rtl/prim_generic_buf.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_subst_perm.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_subreg_arb.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_secded_inv_64_57_dec.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_secded_inv_39_32_dec.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_ram_1p_adv.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_prince.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_onehot_check.sv
+1700453521 ../hw/ip/opentitan/ip/prim/rtl/prim_fifo_sync_cnt.sv
+1700453518 ../hw/ip/opentitan/lowrisc_ibex/dv/uvm/core_ibex/common/prim/prim_clock_mux2.sv
+1700453516 ../hw/ip/dc_fifo/dc_token_ring.sv
+1700453516 ../hw/ip/dc_fifo/dc_synchronizer.sv
+1700453516 ../hw/ip/dc_fifo/dc_full_detector.sv
+1700453516 ../hw/ip/dc_fifo/dc_data_buffer.sv
+1700453517 ../hw/ip/opentitan/lowrisc_ibex/rtl/ibex_register_file_latch.sv
+1700453517 ../hw/ip/opentitan/lowrisc_ibex/rtl/ibex_register_file_fpga.sv
+1700453517 ../hw/ip/opentitan/lowrisc_ibex/rtl/ibex_register_file_ff.sv
+1700453517 ../hw/ip/opentitan/lowrisc_ibex/rtl/ibex_lockstep.sv
+1700454216 ../hw/ip/opentitan/dv/sv/dv_utils/dv_fcov_macros.svh
+1700453517 ../hw/ip/opentitan/lowrisc_ibex/rtl/ibex_core.sv
+1700453523 ../hw/ip/opentitan/ip/tlul/rtl/tlul_sram_byte.sv
+1700453523 ../hw/ip/opentitan/ip/tlul/rtl/tlul_rsp_intg_chk.sv
+1700453523 ../hw/ip/opentitan/ip/tlul/rtl/tlul_err.sv
+1700453523 ../hw/ip/opentitan/ip/tlul/rtl/tlul_data_integ_enc.sv
+1700453523 ../hw/ip/opentitan/ip/tlul/rtl/tlul_cmd_intg_chk.sv
+1700453523 ../hw/ip/opentitan/ip/tlul/rtl/tlul_adapter_reg.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_subreg_ext.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_subreg.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_sec_anchor_flop.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_sec_anchor_buf.sv
+1700453521 ../hw/ip/opentitan/ip/prim/rtl/prim_reg_we_check.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_util_get_scramble_params.svh
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_ram_1p_scr.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_flop_2sync.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_fifo_sync.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_diff_decode.sv
+1700453518 ../hw/ip/opentitan/lowrisc_ibex/dv/uvm/core_ibex/common/prim/prim_ram_1p.sv
+1700453518 ../hw/ip/opentitan/lowrisc_ibex/dv/uvm/core_ibex/common/prim/prim_flop.sv
+1700453518 ../hw/ip/opentitan/lowrisc_ibex/dv/uvm/core_ibex/common/prim/prim_clock_gating.sv
+1700453518 ../hw/ip/opentitan/lowrisc_ibex/dv/uvm/core_ibex/common/prim/prim_buf.sv
+1700453523 ../hw/ip/opentitan/ip/gpio/rtl/gpio_reg_top.sv
+1700453516 ../hw/ip/dc_fifo/dc_token_ring_fifo_dout.sv
+1700453516 ../hw/ip/dc_fifo/dc_token_ring_fifo_din.sv
+1700453478 ../hw/spi/spi_device_regs.sv
+1700453478 ../hw/spi/spi_device_cmd_parser.sv
+1700453517 ../hw/ip/opentitan/lowrisc_ibex/rtl/ibex_top.sv
+1700453523 ../hw/ip/opentitan/ip/tlul/rtl/tlul_rsp_intg_gen.sv
+1700453523 ../hw/ip/opentitan/ip/tlul/rtl/tlul_fifo_sync.sv
+1700453523 ../hw/ip/opentitan/ip/tlul/rtl/tlul_err_resp.sv
+1700453523 ../hw/ip/opentitan/ip/tlul/rtl/tlul_adapter_sram.sv
+1700453523 ../hw/ip/opentitan/ip/tlul/rtl/tlul_adapter_host.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_secded_inv_64_57_enc.sv
+1700453521 ../hw/ip/opentitan/ip/prim/rtl/prim_secded_inv_39_32_enc.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_intr_hw.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_filter_ctr.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_arbiter_tree.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_arbiter_ppc.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_alert_sender.sv
+1700453523 ../hw/ip/opentitan/ip/gpio/rtl/gpio.sv
+1700453532 ../hw/ip/xbar/rtl/xbar_periph.sv
+1700453532 ../hw/ip/xbar/rtl/xbar_2to1.sv
+1700453532 ../hw/ip/xbar/rtl/xbar_1to2.sv
+1700453478 ../hw/spi/spi_device_tx.sv
+1700453478 ../hw/spi/spi_device_tlul_plug.sv
+1700453478 ../hw/spi/spi_device_syncro.sv
+1700453478 ../hw/spi/spi_device_rx.sv
+1700453478 ../hw/spi/spi_device_dc_fifo.sv
+1700453478 ../hw/spi/spi_device_controller.sv
+1700453478 ../hw/ibex/ibex_tlul.sv
+1700453478 ../hw/mem/mem_tlul.sv
+1700453523 ../hw/ip/opentitan/ip/tlul/rtl/tlul_socket_m1.sv
+1700453523 ../hw/ip/opentitan/ip/tlul/rtl/tlul_socket_1n.sv
+1700453523 ../hw/ip/opentitan/ip/tlul/rtl/tlul_cmd_intg_gen.sv
+1700453478 ../hw/rst_gen.sv
+1700453478 ../hw/peri_device.sv
+1700453478 ../hw/cpu_cluster.sv
+1700453532 ../hw/ip/xbar/rtl/xbar_main.sv
+1700453478 ../hw/spi/spi_device_tlul.sv
+1700453529 ../hw/ip/memory/ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h/rtl/ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h.sv
+1700453478 ../hw/top_core.sv
+1700453529 ../hw/ip/memory/ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h/rtl/ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h.sv
+1700455390 tb_spi_pkg.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_flop_macros.sv
+1700453521 ../hw/ip/opentitan/ip/prim/rtl/prim_assert_sec_cm.svh
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_assert_standard_macros.svh
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_assert.sv
+1531623951 /usr/caen/vcs-2017.12-SP2-1/etc/sva/rec_ltl_classes_package.svp
+1700455413 .//tb_gpio.sv
+1700453529 ../hw/ip/memory/ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h/rtl/ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h.sv
+1700453518 ../hw/ip/opentitan/lowrisc_ibex/dv/uvm/core_ibex/common/prim/prim_pkg.sv
+1700453517 ../hw/ip/opentitan/lowrisc_ibex/rtl/ibex_pkg.sv
+1700453532 ../hw/ip/xbar/rtl/tl_periph_pkg.sv
+1700453532 ../hw/ip/xbar/rtl/tl_main_pkg.sv
+1700453532 ../hw/ip/xbar/rtl/tl_1to2_pkg.sv
+1700453523 ../hw/ip/opentitan/ip/gpio/rtl/gpio_reg_pkg.sv
+1700453523 ../hw/ip/opentitan/ip/tlul/rtl/tlul_pkg.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_ram_1p_pkg.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_mubi_pkg.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_subreg_pkg.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_secded_pkg.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_util_pkg.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_cipher_pkg.sv
+1700453522 ../hw/ip/opentitan/ip/prim/rtl/prim_alert_pkg.sv
+1700453478 ../hw/top_pkg.sv
+1700454510 vc/gpio.vc
+1531624678 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/vcsdp_lite.tab
+5
+0 
+1531625631 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libvirsim.so
+1531624898 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/liberrorinf.so
+1531624871 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libsnpsmalloc.so
+1531625298 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libvfs.so
+1700455436 simv.daidir

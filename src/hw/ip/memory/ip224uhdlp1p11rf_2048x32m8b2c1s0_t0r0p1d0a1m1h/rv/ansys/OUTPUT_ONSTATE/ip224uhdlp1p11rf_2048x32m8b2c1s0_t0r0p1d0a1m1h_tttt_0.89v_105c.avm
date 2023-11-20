@@ -1,0 +1,77 @@
+
+
+
+#ck2q_delay: specified clock-to-output pin delay (s) for the associated vdd pin voltages  - use worst case clk-q delay reported in lib
+#tr_q: specifies output pin rising transition time (s) for the associated VDD pin voltages - use the worst case reported in lib
+#tf_q: specifies output pin falling transition time (s) for the associated VDD pin voltages - use the worst case reported in lib
+#tsu: specifies setup (s) for the associated VDD pin voltages - use the worst of all setups - we need to calculate this from lib
+#cpd_avm_read: specifies the power dissipation capacitance during read (Farads) for the associated VDD - calculate from Pread_wc/vdd*vdd
+#cpd_avm_write: specifies the power dissipation capacitance during write (Farads) for the associated VDD - calculate from Pwrite_wc/vdd*vdd
+#cpd_avm_standby_trig: specifies cpd_avm_standby_trig value (Farads) for the associated VDD - need this included in char( clk inactive power), and grab Pstandby/vdd*vdd
+##cpd_avm_standby_ntrig: specifies cpd_avm_standby_ntrig value (Farads) for the associated VDD - need this included in char( clk inactive power), and grab Pstandby/vdd*vdd
+# Statename          BooleanCondition          Active Input Pin   Direction           Measurement name
+#READ                         REN*CLK             CLK                RISE               Pread_wc
+#WRITE                        WEN*CLK             CLK                RISE               Pwrite_wc
+#EXIT_SHUTDOWN                !SD                 SD                 FALL               This is required for Memories with PME = 1
+#STANDBY_TRIG                 CLK                 CLK                RISE               p_clk_rise_inac_vddp
+#STANDBY_NTRIG                !CLK                CLK                FALL               p_clk_fall_inac_vddp
+
+#c_load: specifies load cap value (Farads) for the associated VDD. value = (# dout pins) * (per pin cload in power CZ). Decided to keep this as NB*21fF
+#c_decap: specifies decap (Farads) for the associated VDD. Optional and calculated by AVM flow.
+#leakage_i: specifies leakage current (Amps) for the associated VDD - calculate from leakage power/vdd
+#Ipeak avm_read (Amps) - Add a probe on vddp for clk power sim and measure max current at read. Characterize this and get the value. Or,  use icct current profile/PWL and get the max value from there.
+#Ipeak avm_write (Amps) - Add probe on vddp for clk power sim and measure max current at read. Characterize this and get the value.  Or,  use icct current profile/PWL and get the max value from there.
+
+
+ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p1d0a1m1h {
+
+EQUIV_GATE_COUNT 65536
+MEMORY_TYPE SRAM
+PROCESS tttt
+ # State/Mode Definitions
+        # state_boolean <mode> "<Boolean condition>" "<active_pin/clock_pin>" "<output_pin>"
+        # At least the READ, WRITE, standby_trig, and standby_ntrig should be captured
+        # Boolean conditions READ, WRITE should be generic enough to capture all flavors of READ, WRITE
+        state_boolean avm_read          "ren&clk"  "clk"  "NA"
+        state_boolean avm_write          "wen&clk"  "clk"  "NA"
+        state_boolean standby_trig      "!ren&!wen"     "clk"  "NA"
+        state_boolean standby_ntrig     "!ren&!wen"     "!clk" "NA"
+
+        GND_PIN vss
+        VDD_PIN vddp
+        VDD 0.89
+
+
+        tf_q  9.556e-12
+        tr_q  5.252e-12
+        cload 672e-15 
+        ck2q_delay 309.79400e-12
+        tsu 239.794e-12
+
+Cpd avm_read {
+     vddp vss 8560.131296553465e-15    
+        }
+
+Cpd avm_write {
+    vddp vss  10179.58591086984e-15
+        }
+
+Cpd standby_trig {
+                vddp vss 9.960863527332407e-15 
+        }
+
+Cpd standby_ntrig {
+                vddp vss 14.821360939275344e-15
+        }
+
+Peak_I avm_read {
+                 vddp vss 0.036386
+        }
+Peak_I avm_write {
+                 vddp vss 0.040445
+        }
+
+}
+
+
+

@@ -1,0 +1,81 @@
+#############################################################################################
+## Intel Confidential                                                                      ##
+#############################################################################################
+## Copyright 2022 Intel Corporation. The information contained herein is the proprietary   ##
+## and confidential information of Intel or its licensors, and is supplied subject to, and ##
+## may be used only in accordance with, previously executed agreements with Intel.         ##
+## EXCEPT AS MAY OTHERWISE BE AGREED IN WRITING: (1) ALL MATERIALS FURNISHED BY INTEL      ##
+## HEREUNDER ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND; (2) INTEL SPECIFICALLY     ##
+## DISCLAIMS ANY WARRANTY OF NONINFRINGEMENT, FITNESS FOR A PARTICULAR PURPOSE OR          ##
+## MERCHANTABILITY; AND (3) INTEL WILL NOT BE LIABLE FOR ANY COSTS OF PROCUREMENT OF       ##
+## SUBSTITUTES, LOSS OF PROFITS, INTERRUPTION OF BUSINESS, OR FOR ANY OTHER SPECIAL,       ##
+## CONSEQUENTIAL OR INCIDENTAL DAMAGES, HOWEVER CAUSED, WHETHER FOR BREACH OF WARRANTY,    ##
+## CONTRACT, TORT, NEGLIGENCE, STRICT LIABILITY OR OTHERWISE.                              ##
+#############################################################################################
+#############################################################################################
+##                                                                                         ##
+##  Vendor:                Intel Corporation                                               ##
+##  Product:               ip224uhdlp1p11rf                                                ##
+##  Version:               r1.0.1                                                          ##
+##  Technology:            p1222.4                                                         ##
+##  Celltype:              MemoryIP                                                        ##
+##  IP Owner:              Intel CMO                                                       ##
+##  Creation Time:         Wed Sep 14 2022 15:19:51                                        ##
+##  Memory Name:           ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h                  ##
+##  Memory Name Generated: ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h                  ##
+##                                                                                         ##
+#############################################################################################
+
+
+source $::env(UPF_INSTALL_DIR)/upf_global_defs.tcl
+
+create_power_domain pd_ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h -include_scope
+
+create_supply_port vddp -direction in -domain pd_ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h
+create_supply_port vss -direction in -domain  pd_ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h
+
+create_supply_net vddp -domain pd_ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h
+create_supply_net vss -domain  pd_ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h
+
+connect_supply_net vddp -ports vddp
+connect_supply_net vss -ports vss
+
+set_domain_supply_net pd_ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h -primary_power_net vddp -primary_ground_net vss
+
+create_power_domain pd0_ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h -elements {ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h_bmod}
+
+create_supply_net vddp -domain pd0_ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h -reuse
+create_supply_net vss -domain  pd0_ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h -reuse
+set_domain_supply_net pd0_ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h -primary_power_net vddp -primary_ground_net vss
+
+
+create_power_domain pd1_ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h -elements {ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h_bmod/ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h_array}
+create_supply_net vddp -domain pd1_ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h -reuse
+create_supply_net vss -domain  pd1_ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h -reuse
+
+set_domain_supply_net pd1_ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h -primary_power_net vddp -primary_ground_net vss
+
+
+
+set_related_supply_net -power vddp -object_list {clk adr din mc mcen ren wen clkbyp wa wpulse wpulseen q fwen}
+set_isolation ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h_iso_in -domain pd_ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h -isolation_power_net vddp -clamp_value 0 -elements {clk adr din mcen mc ren wen clkbyp wa wpulse wpulseen}
+
+set_isolation_control ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h_iso_in -domain pd_ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h \
+-isolation_signal fwen \
+-isolation_sense high \
+-location self
+
+##-----------------------------------------------------------
+## Creating the Power State Table
+##-----------------------------------------------------------
+
+add_port_state vddp -state "SRAM_SUPPLY_ON $SRAM_SUPPLY "
+add_port_state vddp -state "SRAM_SUPPLY_OFF off "
+ 
+add_port_state vss  -state "default 0 " 
+ 
+create_pst pd_ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h_pst -supplies [list vddp vss] 
+add_pst_state pd_all_on  -pst pd_ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h_pst -state {SRAM_SUPPLY_ON default} 
+add_pst_state pd_mse_off -pst pd_ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h_pst -state {SRAM_SUPPLY_OFF default} 
+
+

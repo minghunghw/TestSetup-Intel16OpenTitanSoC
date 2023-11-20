@@ -1,6 +1,0 @@
-export_DPI gen_prefetch_buffer®simutil_get_scramble_key ibex_if_stage_0000
-export_DPI gen_prefetch_buffer®simutil_get_scramble_nonce ibex_if_stage_0000
-export_DPI simutil_get_scramble_key ibex_if_stage_0000
-export_DPI simutil_get_scramble_nonce ibex_if_stage_0000
-DirectC SdisableFork 
-DirectC StoreForloopIdxIntoSPF 

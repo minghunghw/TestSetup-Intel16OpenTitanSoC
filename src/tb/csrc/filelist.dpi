@@ -1,4 +1,0 @@
-DPI_STUB_OBJS += ./../simv.daidir/vc_hdrs.o
-./../simv.daidir/vc_hdrs.o: ./../simv.daidir/vc_hdrs.c
-	@$(CC) -I/usr/caen/vcs-2017.12-SP2-1/include  -pipe -fPIC    -I/usr/caen/vcs-2017.12-SP2-1/include  -fPIC -c -o ./../simv.daidir/vc_hdrs.o ./../simv.daidir/vc_hdrs.c
-	@strip -g ./../simv.daidir/vc_hdrs.o

@@ -65,5 +65,5 @@ class opentitan():
 """
 Some useful functions
 """
-def toByte(data, bit):
+def toByte(bit, data):
     return data.to_bytes(bit, byteorder='big')

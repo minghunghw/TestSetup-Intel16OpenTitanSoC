@@ -183,8 +183,24 @@ def check_chip2spi():
     print(int.from_bytes(data, byteorder='big'))
     spi.close()
 
+def check_spi_plus_gpio():
+    """
+    Check GPIO in SPI mode
+    """
+    addr = find_usb_addr()
+    # Initalize SPI
+    spi = SpiController()
+    spi.configure(addr[0], frequency=1e6)
+    slave = spi.get_port(cs=0)
+    gpio = spi.get_gpio()
+    # Set C7-C0 to output
+    gpio.set_direction(0xff, 0xff)
+    gpio.write(0x00)
+    spi.close()
+
 # check_board_address()
 # check_simple_spi_2_logic_analyzer()
 # check_continuous_spi()
 # check_spi2chip()
 # check_chip2spi()
+# check_spi_plus_gpio()

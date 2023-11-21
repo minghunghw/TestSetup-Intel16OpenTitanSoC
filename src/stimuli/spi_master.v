@@ -126,7 +126,6 @@ module spi_master(
                         if (count_r == TRANSACTION_SIZE-1) begin
                             state_w = DONE;
                             done_w = 1;
-                            spi_cs_w = 1;
                         end else begin
                             state_w = CMD;
                             cycle_w = 7;
@@ -137,6 +136,7 @@ module spi_master(
             end
             DONE: begin
                 state_w = DONE;
+                spi_cs_w = 1;
             end
         endcase
     end

@@ -28,7 +28,7 @@ module spi_master(
 
     reg [3:0] count_w, count_r;
     reg [2:0] state_w, state_r;
-    reg [4:0] cycle_w, cycle_r;
+    reg [5:0] cycle_w, cycle_r;
     reg done_w, done_r;
     reg spi_sclk_w, spi_sclk_r;
     reg spi_sdo_w, spi_sdo_r;
@@ -120,7 +120,7 @@ module spi_master(
                 spi_sclk_w = ~spi_sclk_r;
                 if (spi_sclk_r) begin
                     cycle_w = cycle_r - 1;
-                    spi_sdo_w = data[count_r][cycle_r];
+                    spi_sdo_w = data[count_r][cycle_r - 1];
                     if (cycle_r == 0) begin
                         spi_sdo_w = 0; // cmd[count_r][7]
                         if (count_r == TRANSACTION_SIZE-1) begin

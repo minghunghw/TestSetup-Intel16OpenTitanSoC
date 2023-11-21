@@ -75,7 +75,7 @@ module spi_master(
                 spi_sclk_w = ~spi_sclk_r;
                 if (spi_sclk_r) begin
                     cycle_w = cycle_r - 1;
-                    if (cycle_r >= 4)
+                    if (cycle_r > 4)
                         spi_sdo_w = 0;
                     else if (cycle_r == 0) begin
                         spi_sdo_w = 0; // addr[count_r][31]
@@ -89,7 +89,7 @@ module spi_master(
                 spi_sclk_w = ~spi_sclk_r;
                 if (spi_sclk_r) begin
                     cycle_w = cycle_r - 1;
-                    if (cycle_r >= 8)
+                    if (cycle_r > 8)
                         spi_sdo_w = 0;
                     else if (cycle_r == 0) begin
                         if (cmd[count_r] == 11) begin

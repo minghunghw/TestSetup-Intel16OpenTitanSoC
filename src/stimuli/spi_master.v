@@ -2,8 +2,10 @@ module spi_master(
     // Control Signals
     input       clk_i,      // FPGA Clock
     input       rst_i,      // FPGA Reset
-    input       sw_start,   // Start Switch
-    input       sw_fetch,   // Fetch Switch
+    input       sw_start_i, // Start Switch Input
+    input       sw_fetch_i, // Fetch Switch Input
+    output      sw_start_o, // Start Switch Output LED
+    output      sw_fetch_o, // Fetch Switch Output LED
     output      start,      // Start Signal
     output      done,       // Done Signal
     output      reset,      // Reset Signal
@@ -41,6 +43,8 @@ module spi_master(
     reg spi_sdo_w, spi_sdo_r;
     reg spi_cs_w, spi_cs_r;
 
+    assign sw_start_o = sw_start_i;
+    assign sw_fetch_o = sw_fetch_i;
     assign start = start_r;
     assign done = done_r;
     assign reset = rst_i;
@@ -78,7 +82,7 @@ module spi_master(
 
         case (state_r)
             IDLE: begin
-                if (sw_start) begin
+                if (sw_start_i) begin
                     state_w = CMD;
                     cycle_w = 7;
                     start_w = 1;
@@ -151,7 +155,7 @@ module spi_master(
                 state_w = DONE;
                 done_w = 1;
                 spi_cs_w = 1;
-                if (sw_fetch && ~on_r) begin
+                if (sw_fetch_i && ~on_r) begin
                     fetch_w = 1;
                     on_w = 1;
                 end

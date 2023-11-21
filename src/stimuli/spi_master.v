@@ -2,8 +2,11 @@ module spi_master(
     // Control Signals
     input       clk_i,      // FPGA Clock
     input       rst_i,      // FPGA Reset
-    input       start,      // Start signal
-    output      done,       // Done signal
+    input       push,       // Push Button
+    output      start,      // Start Signal
+    output      done,       // Done Signal
+    output      reset,      // Reset Signal
+    output      fetch,      // Fetch Signal
 
     // SPI Interface
     output      spi_sclk,   // SPI Clock (Frequency will be half of clk_i)
@@ -29,12 +32,18 @@ module spi_master(
     reg [3:0] count_w, count_r;
     reg [2:0] state_w, state_r;
     reg [5:0] cycle_w, cycle_r;
+    reg start_w, start_r;
     reg done_w, done_r;
+    reg fetch_w, fetch_r;
+    reg on_w, on_r;
     reg spi_sclk_w, spi_sclk_r;
     reg spi_sdo_w, spi_sdo_r;
     reg spi_cs_w, spi_cs_r;
 
+    assign start = start_r;
     assign done = done_r;
+    assign reset = rst_i;
+    assign fetch = fetch_r;
     assign spi_sclk = spi_sclk_r;
     assign spi_sdo = spi_sdo_r;
     assign spi_cs = spi_cs_r;
@@ -58,16 +67,20 @@ module spi_master(
         count_w = count_r;
         state_w = state_r;
         cycle_w = cycle_r;
-        done_w = done_r;
+        start_w = 0;
+        done_w = 0;
+        fetch_w = 0;
+        on_w = on_r;
         spi_sclk_w = spi_sclk_r;
         spi_sdo_w = spi_sdo_r;
         spi_cs_w = spi_cs_r;
 
         case (state_r)
             IDLE: begin
-                if (start) begin
+                if (push) begin
                     state_w = CMD;
                     cycle_w = 7;
+                    start_w = 1;
                     spi_cs_w = 0;
                 end
             end
@@ -137,6 +150,10 @@ module spi_master(
                 state_w = DONE;
                 done_w = 1;
                 spi_cs_w = 1;
+                if (push && ~on_r) begin
+                    fetch_w = 1;
+                    on_w = 1;
+                end
             end
         endcase
     end
@@ -146,7 +163,10 @@ module spi_master(
             count_r     <= 0;
             state_r     <= 0;
             cycle_r     <= 0;
+            start_r     <= 0;
             done_r      <= 0;
+            fetch_r     <= 0;
+            on_r        <= 0;
             spi_sclk_r  <= 0;
             spi_sdo_r   <= 0;
             spi_cs_r    <= 1;
@@ -154,7 +174,10 @@ module spi_master(
             count_r     <= count_w;
             state_r     <= state_w;
             cycle_r     <= cycle_w;
+            start_r     <= start_w;
             done_r      <= done_w;
+            fetch_r     <= fetch_w;
+            on_r        <= on_w;
             spi_sclk_r  <= spi_sclk_w;
             spi_sdo_r   <= spi_sdo_w;
             spi_cs_r    <= spi_cs_w;

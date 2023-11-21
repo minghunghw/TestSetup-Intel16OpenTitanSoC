@@ -35,7 +35,8 @@ module spi_master(
     reg start_w, start_r;
     reg done_w, done_r;
     reg fetch_w, fetch_r;
-    reg on_w, on_r;
+    reg on_w, on_r; // used for only one cycle fetch
+    reg rel; // used to detect release push button
     reg spi_sclk_w, spi_sclk_r;
     reg spi_sdo_w, spi_sdo_r;
     reg spi_cs_w, spi_cs_r;
@@ -150,12 +151,21 @@ module spi_master(
                 state_w = DONE;
                 done_w = 1;
                 spi_cs_w = 1;
-                if (push && ~on_r) begin
+                if (push && rel && ~on_r) begin
                     fetch_w = 1;
                     on_w = 1;
                 end
             end
         endcase
+    end
+
+    always@(posedge clk_i or posedge rst_i or negedge push) begin
+        if (rst_i)
+            rel <= 0;
+        else if (~push)
+            rel <= 1;
+        else
+            rel <= rel;
     end
 
     always@(posedge clk_i or posedge rst_i) begin

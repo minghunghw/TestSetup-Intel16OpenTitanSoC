@@ -4,7 +4,8 @@ module tb;
 
     reg     clk_i;
     reg     rst_i;
-    reg     push;
+    reg     sw_start;
+    reg     sw_fetch;
     wire    start;
     wire    done;
     wire    reset;
@@ -22,23 +23,18 @@ module tb;
     always #(CLK_PERIOD/2.0) clk_i = ~clk_i;
 
     initial begin
-        push  = 0;
+        sw_start = 0;
+        sw_fetch = 0;
         
         @(negedge clk_i)
         rst_i = 0;
-        push  = 1;
-
-        @(negedge clk_i)
-        push  = 0;
+        sw_start  = 1;
 
         wait (done);
         #(CLK_PERIOD);
 
         @(negedge clk_i)
-        push  = 1;
-
-        @(negedge clk_i)
-        push  = 0;
+        sw_fetch  = 1;
 
         wait (fetch)
         #(CLK_PERIOD);

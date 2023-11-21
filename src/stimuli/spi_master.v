@@ -2,7 +2,8 @@ module spi_master(
     // Control Signals
     input       clk_i,      // FPGA Clock
     input       rst_i,      // FPGA Reset
-    input       push,       // Push Button
+    input       sw_start,   // Start Switch
+    input       sw_fetch,   // Fetch Switch
     output      start,      // Start Signal
     output      done,       // Done Signal
     output      reset,      // Reset Signal
@@ -36,7 +37,6 @@ module spi_master(
     reg done_w, done_r;
     reg fetch_w, fetch_r;
     reg on_w, on_r; // used for only one cycle fetch
-    reg rel; // used to detect release push button
     reg spi_sclk_w, spi_sclk_r;
     reg spi_sdo_w, spi_sdo_r;
     reg spi_cs_w, spi_cs_r;
@@ -78,7 +78,7 @@ module spi_master(
 
         case (state_r)
             IDLE: begin
-                if (push) begin
+                if (sw_start) begin
                     state_w = CMD;
                     cycle_w = 7;
                     start_w = 1;
@@ -151,21 +151,12 @@ module spi_master(
                 state_w = DONE;
                 done_w = 1;
                 spi_cs_w = 1;
-                if (push && rel && ~on_r) begin
+                if (sw_fetch && ~on_r) begin
                     fetch_w = 1;
                     on_w = 1;
                 end
             end
         endcase
-    end
-
-    always@(posedge clk_i or posedge rst_i or negedge push) begin
-        if (rst_i)
-            rel <= 0;
-        else if (~push)
-            rel <= 1;
-        else
-            rel <= rel;
     end
 
     always@(posedge clk_i or posedge rst_i) begin

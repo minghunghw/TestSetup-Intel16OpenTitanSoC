@@ -38,6 +38,7 @@ class opentitan():
         """
         self.gpio = GpioMpsseController()
         self.gpio.configure(self.addr_gpio, direction=0xffff, frequency=self.freq)
+        self.gpio.write(0x0000)
 
     def reset(self):
         self.gpio.write(0x0000)

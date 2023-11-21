@@ -22,13 +22,25 @@ module tb;
     always #(CLK_PERIOD/2.0) clk_i = ~clk_i;
 
     initial begin
-        push   = 0;
+        push  = 0;
         
         @(negedge clk_i)
-        rst_i  = 0;
-        push   = 1;
+        rst_i = 0;
+        push  = 1;
+
+        @(negedge clk_i)
+        push  = 0;
 
         wait (done);
+        #(CLK_PERIOD);
+
+        @(negedge clk_i)
+        push  = 1;
+
+        @(negedge clk_i)
+        push  = 0;
+
+        wait (fetch)
         #(CLK_PERIOD);
 
         $display("%c[1;32m",27);

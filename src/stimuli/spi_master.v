@@ -1,7 +1,7 @@
 module spi_master(
     // Control Signals
     input       clk_i,      // FPGA Clock
-    input       rst_ni,     // FPGA Reset
+    input       rst_i,      // FPGA Reset
     input       start,      // Start signal
     output      done,       // Done signal
 
@@ -141,8 +141,8 @@ module spi_master(
         endcase
     end
 
-    always@(posedge clk_i or negedge rst_ni) begin
-        if (~rst_ni) begin
+    always@(posedge clk_i or posedge rst_i) begin
+        if (rst_i) begin
             count_r     <= 0;
             state_r     <= 0;
             cycle_r     <= 0;

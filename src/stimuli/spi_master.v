@@ -31,12 +31,11 @@ module spi_master(
     reg [4:0] cycle_w, cycle_r;
     reg done_w, done_r;
     reg spi_sclk_w, spi_sclk_r;
-    reg spi_sdo_w, spi_sdo_r;
+    reg spi_sdo;
     reg spi_cs_w, spi_cs_r;
 
     assign done = done_r;
     assign spi_sclk = spi_sclk_r;
-    assign spi_sdo = spi_sdo_r;
     assign spi_cs = spi_cs_r;
 
     // Stimuli ROM
@@ -60,7 +59,6 @@ module spi_master(
         cycle_w = cycle_r;
         done_w = done_r;
         spi_sclk_w = spi_sclk_r;
-        spi_sdo_w = spi_sdo_r;
         spi_cs_w = spi_cs_r;
 
         case (state_r)
@@ -79,10 +77,10 @@ module spi_master(
                 end
                 if (spi_sclk_r) begin
                     cycle_w = cycle_r - 1;
-                    if (cycle_r >= 3)
-                        spi_sdo_w = 0;
+                    if (cycle_r >= 4)
+                        spi_sdo = 0;
                     else
-                        spi_sdo_w = cmd[count_r][cycle_r + 1];
+                        spi_sdo = cmd[count_r][cycle_r];
                 end
             end
             ADDR: begin
@@ -98,10 +96,10 @@ module spi_master(
                 end
                 if (spi_sclk_r) begin
                     cycle_w = cycle_r - 1;
-                    if (cycle_r >= 7)
-                        spi_sdo_w = 0;
+                    if (cycle_r >= 8)
+                        spi_sdo = 0;
                     else
-                        spi_sdo_w = addr[count_r][cycle_r + 1];
+                        spi_sdo = addr[count_r][cycle_r];
                 end
             end
             DUMMY: begin
@@ -112,7 +110,7 @@ module spi_master(
                 end
                 if (spi_sclk_r) begin
                     cycle_w = cycle_r - 1;
-                    spi_sdo_w = 0;
+                    spi_sdo = 0;
                 end
             end
             DATA: begin
@@ -130,15 +128,11 @@ module spi_master(
                 end
                 if (spi_sclk_r) begin
                     cycle_w = cycle_r - 1;
-                    if (cycle_r >= 31)
-                        spi_sdo_w = 0;
-                    else
-                        spi_sdo_w = data[count_r][cycle_r + 1];
+                    spi_sdo = data[count_r][cycle_r];
                 end
             end
             DONE: begin
-                state_w = IDLE;
-                done_w = 0;
+                state_w = DONE;
             end
         endcase
     end
@@ -150,7 +144,7 @@ module spi_master(
             cycle_r     <= 0;
             done_r      <= 0;
             spi_sclk_r  <= 0;
-            spi_sdo_r   <= 0;
+            spi_sdo     <= 0;
             spi_cs_r    <= 1;
         end else begin
             count_r     <= count_w;
@@ -158,7 +152,6 @@ module spi_master(
             cycle_r     <= cycle_w;
             done_r      <= done_w;
             spi_sclk_r  <= spi_sclk_w;
-            spi_sdo_r   <= spi_sdo_w;
             spi_cs_r    <= spi_cs_w;
         end
     end

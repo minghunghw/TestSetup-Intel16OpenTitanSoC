@@ -30,7 +30,7 @@ module tb;
     logic  [31:0]               addr;
     logic  [31:0]               data;
 
-    logic  [31:0]               wr_data, rd_data;
+    logic  [31:0]               rd_data;
     logic                       rd_data_valid;
     logic  [33:0]               dummy;
 
@@ -57,18 +57,10 @@ module tb;
         @(negedge clk_i)
         rst_ni      = 1;
 
-        cmd     = 2;   // write mem
-        addr    = 100;
-        wr_data = 100;
-        `SPI_OUTPUT(cmd, addr, wr_data)
+        cmd     = 7;  // read reg1
+        `SPI_INPUT(cmd, rd_data, 32)
 
-        #(CLK_PERIOD*10);
-
-        cmd     = 11;  // read mem
-        addr    = 100;
-        `SPI_INPUT(cmd, addr, rd_data)
-
-        if (rd_data == 100) begin
+        if (rd_data == 32) begin
             $display("%c[1;32m",27);
             $display("SUCCESS\n");
             $display("%c[0m",27);

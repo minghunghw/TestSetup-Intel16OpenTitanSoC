@@ -21,16 +21,33 @@ localparam SPI_CLK_PERIOD = 1000;
     #SPI_CLK_PERIOD;                        \
     rd_data_valid = 1'b0;                                                                            
 
-`define SPI_OUTPUT(cmd, addr, data)         \
+`define SPI_OUTPUT(cmd, data, width)        \
+    spi_cs = 0;                             \
+    #SPI_CLK_PERIOD;                        \
+    `SPI_TX(8, cmd);                        \
+    `SPI_TX(width, data);                   \
+    #SPI_CLK_PERIOD;                        \
+    spi_cs = 1;                             
+
+`define SPI_INPUT(cmd, data, width)         \
+    spi_cs = 0;                             \
+    #SPI_CLK_PERIOD;                        \
+    `SPI_TX(8, cmd);                        \
+    `SPI_TX(1, dummy);                      \
+    `SPI_RX(width, data);                   \
+    #SPI_CLK_PERIOD;                        \
+    spi_cs = 1;  
+
+`define SPI_OUTPUT_MEM(cmd, addr, data)     \
     spi_cs = 0;                             \
     #SPI_CLK_PERIOD;                        \
     `SPI_TX(8, cmd);                        \
     `SPI_TX(32, addr);                      \
     `SPI_TX(32, data);                      \
     #SPI_CLK_PERIOD;                        \
-    spi_cs = 1;                             
+    spi_cs = 1;    
 
-`define SPI_INPUT(cmd, addr, data)          \
+`define SPI_INPUT_MEM(cmd, addr, data)      \
     spi_cs = 0;                             \
     #SPI_CLK_PERIOD;                        \
     `SPI_TX(8, cmd);                        \

@@ -17,20 +17,17 @@ module spi_master(
     output      spi_cs      // SPI Enable
 );
 
-    localparam TRANSACTION_SIZE = 2;
+    // Stimuli ROM
+    `include "spi_r.vh"
+    // `include "qspi.vh"
+    // `include "spi_wr.vh"
+
     localparam IDLE  = 3'd0;
     localparam CMD   = 3'd1; //  8 cycles
     localparam ADDR  = 3'd2; // 32 cycles
     localparam DUMMY = 3'd3; // 34 cycles
     localparam DATA  = 3'd4; // 32 cycles
     localparam DONE  = 3'd5;
-
-    // cmd = 2 (write mem) or 11 (read mem), 8 bits
-    // addr = 128, 132, 136 ..., 32 bits
-    // data = instruction memory load, 32 bits
-    reg [ 3:0]  cmd[TRANSACTION_SIZE-1:0];
-    reg [ 7:0] addr[TRANSACTION_SIZE-1:0];
-    reg [31:0] data[TRANSACTION_SIZE-1:0];
 
     reg [3:0] count_w, count_r;
     reg [2:0] state_w, state_r;
@@ -52,21 +49,6 @@ module spi_master(
     assign spi_sclk = spi_sclk_r;
     assign spi_sdo = spi_sdo_r;
     assign spi_cs = spi_cs_r;
-
-    // Stimuli ROM
-    initial begin
-        // command
-        cmd[0] <= 2;
-        cmd[1] <= 11;
-
-        // address
-        addr[0] <= 100;
-        addr[1] <= 100;
-
-        // data
-        data[0] <= 100;
-        data[1] <= 0;
-    end
 
     always@(*) begin
         count_w = count_r;
@@ -96,9 +78,19 @@ module spi_master(
                     if (cycle_r > 4)
                         spi_sdo_w = 0;
                     else if (cycle_r == 0) begin
-                        spi_sdo_w = 0; // addr[count_r][31]
-                        state_w = ADDR;
-                        cycle_w = 31;
+                        if (cmd[count_r] == 7) begin // read reg
+                            spi_sdo_w = 0;
+                            state_w = DUMMY;
+                            cycle_w = 0;
+                        end else if (cmd[count_r] == 1) begin // write reg
+                            spi_sdo_w = data[count_r][7];
+                            state_w = DATA;
+                            cycle_w = 7;
+                        end else begin // write mem or read mem
+                            spi_sdo_w = 0; // addr[count_r][31]
+                            state_w = ADDR;
+                            cycle_w = 31;
+                        end
                     end else
                         spi_sdo_w = cmd[count_r][cycle_r - 1];
                 end
@@ -110,7 +102,7 @@ module spi_master(
                     if (cycle_r > 8)
                         spi_sdo_w = 0;
                     else if (cycle_r == 0) begin
-                        if (cmd[count_r] == 11) begin
+                        if (cmd[count_r] == 11) begin // read mem
                             spi_sdo_w = 0;
                             state_w = DUMMY;
                             cycle_w = 33;

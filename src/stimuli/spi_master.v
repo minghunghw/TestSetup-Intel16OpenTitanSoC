@@ -1,6 +1,6 @@
 module spi_master(
     // Control Signals
-    input       clk_i,      // FPGA Clock
+    input       clk_sys_i,  // FPGA Clock
     input       rst_i,      // FPGA Reset
     input       sw_start_i, // Start Switch Input
     input       sw_fetch_i, // Fetch Switch Input
@@ -17,9 +17,25 @@ module spi_master(
     output      spi_cs      // SPI Enable
 );
 
+    reg [3:0] div;
+    reg clk_i; // Divided Clock (Frequency will be one-sixteenth of clk_sys_i)
+
+    always@(posedge clk_sys_i or posedge rst_i) begin
+        if (rst_i) begin
+            div <= 0;
+            clk_i <= 0;
+        end else begin
+            div <= div + 1;
+            if (div == 15)
+                clk_i <= ~clk_i;
+            else
+                clk_i <= clk_i;
+        end
+    end
+
     // Stimuli ROM
-    `include "spi_r.vh"
-    // `include "qspi.vh"
+    // `include "spi_r.vh"
+    `include "qspi.vh"
     // `include "spi_wr.vh"
 
     localparam IDLE  = 3'd0;

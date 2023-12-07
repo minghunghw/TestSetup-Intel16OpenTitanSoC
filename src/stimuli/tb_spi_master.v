@@ -2,7 +2,7 @@ module tb;
 
     localparam CLK_PERIOD       = 100;
 
-    reg     clk_sys_i;
+    reg     clk_i;
     reg     rst_i;
     reg     sw_start_i;
     reg     sw_fetch_i;
@@ -20,22 +20,22 @@ module tb;
         .*
     );
 
-    initial clk_sys_i = 0;
+    initial clk_i = 0;
     initial rst_i = 1;
-    always #(CLK_PERIOD/2.0) clk_sys_i = ~clk_sys_i;
+    always #(CLK_PERIOD/2.0) clk_i = ~clk_i;
 
     initial begin
         sw_start_i = 0;
         sw_fetch_i = 0;
         
-        @(negedge clk_sys_i)
+        @(negedge clk_i)
         rst_i = 0;
         sw_start_i  = 1;
 
         wait (done);
         #(CLK_PERIOD);
 
-        @(negedge clk_sys_i)
+        @(negedge clk_i)
         sw_fetch_i  = 1;
 
         wait (fetch)

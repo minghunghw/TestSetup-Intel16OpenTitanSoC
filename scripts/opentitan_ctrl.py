@@ -5,20 +5,21 @@ import time
 """
 FT232H Device USB Address (SPI)
 """
-ADDR_SPI  = "ftdi://ftdi:232h:00:fe/1"
-ADDR_GPIO = "ftdi://ftdi:232h:00:ff/1"
+ADDR_OPENTITAN = "ftdi://ftdi:232h:00:ff/1"
 
 """
 The OpenTian SoC Chip Control Class
 """
 class opentitan():
-    def __init__(self, addr_spi=ADDR_SPI, addr_gpio=ADDR_GPIO, freq=1e6):
-        self.addr_spi = addr_spi
-        self.addr_gpio = addr_gpio
+    def __init__(self, addr=ADDR_OPENTITAN, freq=1e6):
+        self.addr = addr
         self.freq = freq
         """
-        Board 0 Pinout:
-            C7-C0,
+        Board Pinout:
+            C7-C3,
+            C2:     en_iftch_i.     Deafult 0
+            C1:     fetch_enable_i. Default 0
+            C0:     rst_ni.         Deafult 0
             D7-D4,
             D3:     spi_cs.         Default 1
             D2:     spi_sdo0
@@ -26,18 +27,10 @@ class opentitan():
             D0:     spi_sclk.       Default 0
         """
         self.ctrl = SpiController()
-        self.ctrl.configure(self.addr_spi, frequency=self.freq)
+        self.ctrl.configure(self.addr, frequency=self.freq)
         self.spi = self.ctrl.get_port(cs=0)
-        """
-        Board 1 Pinout:
-            C7-C3,
-            C2:     en_iftch_i.     Deafult 0
-            C1:     fetch_enable_i. Default 0
-            C0:     rst_ni.         Deafult 0
-            D7-D0
-        """
-        self.gpio = GpioMpsseController()
-        self.gpio.configure(self.addr_gpio, direction=0xffff, frequency=self.freq)
+        self.gpio = self.ctrl.get_gpio()
+        self.gpio.set_direction(0xff00, 0xff00)
         self.gpio.write(0x0000)
 
     def reset(self):
@@ -45,7 +38,6 @@ class opentitan():
 
     def close(self):
         self.ctrl.close()
-        self.gpio.close()
 
     # active low
     def chip_reset(self, val):
@@ -58,15 +50,25 @@ class opentitan():
         cur_state &= ~(0b11 << 9)
         self.gpio.write(cur_state | val << 9 | val << 10)
 
-    def write(self, cmd, addr, data):
+    def write_mem(self, cmd, addr, data):
         self.spi.write(toByte(1, cmd))
         self.spi.write(toByte(4, addr))
         self.spi.write(toByte(4, data))
     
-    def read(self, cmd, addr, dummy=0):
+    def read_mem(self, cmd, addr, dummy=0):
         self.spi.write(toByte(1, cmd))
         self.spi.write(toByte(4, addr))
-        self.spi.write(toByte(5, dummy), droptail=6)
+        self.spi.write(toByte(5, dummy), droptail=6) # 34 cycles
+        data = self.spi.read(4)
+        return data
+
+    def write_reg(self, cmd, data):
+        self.spi.write(toByte(1, cmd))
+        self.spi.write(toByte(1, data))
+    
+    def read_reg(self, cmd, dummy=0):
+        self.spi.write(toByte(1, cmd))
+        self.spi.write(toByte(1, dummy), droptail=7) # 1 cycle
         data = self.spi.read(4)
         return data
     

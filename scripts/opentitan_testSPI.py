@@ -10,13 +10,13 @@ time.sleep(1)
 # release reset
 ot.chip_reset(1)
 
-# write to memory address 100 data 100
-ot.write(2, 100, 100)
+# write to reg0 data 1, should enable qspi mode
+ot.write(1, 0, 1)
 time.sleep(1)
 
-# read from memory address 100, should be data 100
-data = ot.read(11, 100)
-print(data)
+# read from reg1, should be data 32
+# data = ot.read(7, 0)
+# print(data)
 
 ot.reset()
 ot.close()

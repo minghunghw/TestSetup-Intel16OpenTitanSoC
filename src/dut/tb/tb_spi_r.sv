@@ -58,7 +58,7 @@ module tb;
         rst_ni      = 1;
 
         cmd     = 7;  // read reg1
-        `SPI_INPUT(cmd, rd_data, 32)
+        `SPI_INPUT_REG(cmd, rd_data)
 
         if (rd_data == 32) begin
             $display("%c[1;32m",27);

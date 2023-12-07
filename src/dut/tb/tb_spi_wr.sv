@@ -58,17 +58,17 @@ module tb;
         rst_ni      = 1;
 
         cmd     = 2;   // write mem
-        addr    = 100;
-        wr_data = 100;
+        addr    = 128;
+        wr_data = 128;
         `SPI_OUTPUT_MEM(cmd, addr, wr_data)
 
         #(CLK_PERIOD*10);
 
         cmd     = 11;  // read mem
-        addr    = 100;
+        addr    = 128;
         `SPI_INPUT_MEM(cmd, addr, rd_data)
 
-        if (rd_data == 100) begin
+        if (rd_data == 128) begin
             $display("%c[1;32m",27);
             $display("SUCCESS\n");
             $display("%c[0m",27);

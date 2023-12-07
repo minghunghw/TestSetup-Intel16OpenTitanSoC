@@ -5,7 +5,7 @@ import time
 """
 FT232H Device USB Address (SPI)
 """
-ADDR_OPENTITAN = "ftdi://ftdi:232h:00:ff/1"
+ADDR_OPENTITAN = "ftdi://ftdi:232h:02:03/1"
 
 """
 The OpenTian SoC Chip Control Class

@@ -56,7 +56,7 @@ module tb;
 
         cmd     = 1;   // write reg0
         wr_data = 1;
-        `SPI_OUTPUT(cmd, wr_data, 8)
+        `SPI_OUTPUT_REG(cmd, wr_data)
 
         if (spi_mode == 2) begin
             $display("%c[1;32m",27);

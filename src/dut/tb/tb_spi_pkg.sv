@@ -21,20 +21,20 @@ localparam SPI_CLK_PERIOD = 1000;
     #SPI_CLK_PERIOD;                        \
     rd_data_valid = 1'b0;                                                                            
 
-`define SPI_OUTPUT(cmd, data, width)        \
+`define SPI_OUTPUT_REG(cmd, data)           \
     spi_cs = 0;                             \
     #SPI_CLK_PERIOD;                        \
     `SPI_TX(8, cmd);                        \
-    `SPI_TX(width, data);                   \
+    `SPI_TX(8, data);                       \
     #SPI_CLK_PERIOD;                        \
     spi_cs = 1;                             
 
-`define SPI_INPUT(cmd, data, width)         \
+`define SPI_INPUT_REG(cmd, data)            \
     spi_cs = 0;                             \
     #SPI_CLK_PERIOD;                        \
     `SPI_TX(8, cmd);                        \
     `SPI_TX(1, dummy);                      \
-    `SPI_RX(width, data);                   \
+    `SPI_RX(32, data);                      \
     #SPI_CLK_PERIOD;                        \
     spi_cs = 1;  
 

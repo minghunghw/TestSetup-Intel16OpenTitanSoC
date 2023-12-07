@@ -19,7 +19,7 @@ class opentitan():
             C7-C3,
             C2:     en_iftch_i.     Deafult 0
             C1:     fetch_enable_i. Default 0
-            C0:     rst_ni.         Deafult 0
+            C0:     rst_ni.         Deafult 1
             D7-D4,
             D3:     spi_cs.         Default 1
             D2:     spi_sdo0
@@ -31,22 +31,22 @@ class opentitan():
         self.spi = self.ctrl.get_port(cs=0)
         self.gpio = self.ctrl.get_gpio()
         self.gpio.set_direction(0xff00, 0xff00)
-        self.gpio.write(0x0000)
+        self.gpio.write(0x0100)
 
     def reset(self):
-        self.gpio.write(0x0000)
+        self.gpio.write(0x0100)
 
     def close(self):
         self.ctrl.close()
 
     # active low
     def chip_reset(self, val):
-        cur_state = self.gpio.read()[0]
+        cur_state = self.gpio.read()
         cur_state &= ~(0b1 << 8)
         self.gpio.write(cur_state | val << 8)
 
     def start(self, val):
-        cur_state = self.gpio.read()[0]
+        cur_state = self.gpio.read()
         cur_state &= ~(0b11 << 9)
         self.gpio.write(cur_state | val << 9 | val << 10)
 

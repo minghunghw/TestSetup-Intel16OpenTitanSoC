@@ -11,7 +11,8 @@ module tb;
     wire    start;
     wire    done;
     wire    reset;
-    wire    fetch;
+    wire    fetch0;
+    wire    fetch1;
     wire    spi_sclk;
     wire    spi_sdo;
     wire    spi_cs;
@@ -38,7 +39,7 @@ module tb;
         @(negedge clk_i)
         sw_fetch_i  = 1;
 
-        wait (fetch)
+        wait (fetch0 && fetch1)
         #(CLK_PERIOD);
 
         $display("%c[1;32m",27);

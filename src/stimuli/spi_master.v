@@ -9,7 +9,8 @@ module spi_master(
     output      start,      // Start Signal
     output      done,       // Done Signal
     output      reset,      // Reset Signal
-    output      fetch,      // Fetch Signal
+    output      fetch0,     // Fetch Signal
+    output      fetch1,     // Fetch Signal
 
     // SPI Interface
     output      spi_sclk,   // SPI Clock (Frequency will be half of clk_i)
@@ -45,7 +46,8 @@ module spi_master(
     assign start = start_r;
     assign done = done_r;
     assign reset = ~rst_i;
-    assign fetch = fetch_r;
+    assign fetch0 = fetch_r;
+    assign fetch1 = fetch_r;
     assign spi_sclk = spi_sclk_r;
     assign spi_sdo = spi_sdo_r;
     assign spi_cs = spi_cs_r;

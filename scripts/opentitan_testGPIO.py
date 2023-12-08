@@ -18,7 +18,7 @@ def test_spi_then_gpio():
     ot = setup()
 
     # write data 255 to gpio addr
-    ot.write_mem(2, int("30010000", 16), 255)
+    ot.write_mem(2, int("30010014", 16), 255)
 
     # read data from gpio, should be 255
 

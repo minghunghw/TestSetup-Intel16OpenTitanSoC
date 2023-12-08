@@ -14,7 +14,15 @@ def setup():
 
     return ot
 
-def test_gpio():
+def test_spi_then_gpio():
+    ot = setup()
+
+    # write data 255 to gpio addr
+    ot.write_mem(2, int("30010000", 16), 255)
+
+    # read data from gpio, should be 255
+
+def test_cpu_then_gpio():
     ot = setup()
 
     # write data to instruction sram from addr 128
@@ -34,4 +42,5 @@ def test_gpio():
 
     # read data from gpio, should be 30
 
-# test_gpio()
+# test_spi_then_gpio()
+# test_cpu_then_gpio()

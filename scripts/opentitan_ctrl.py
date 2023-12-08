@@ -56,7 +56,7 @@ class opentitan():
     
     def read_mem(self, cmd, addr, dummy=0):
         transaction = toByte(1, cmd) + toByte(4, addr) + toByte(9, dummy) # write 5 bytes, read 4 bytes
-        data = self.spi.write(transaction, duplex=True, droptail=6) # 34 cycles dummy
+        data = self.spi.exchange(transaction, duplex=True, droptail=6) # 34 cycles dummy
         return toInt(data) >> 6
 
     def write_reg(self, cmd, data):
@@ -65,7 +65,7 @@ class opentitan():
     
     def read_reg(self, cmd, dummy=0):
         transaction = toByte(1, cmd) + toByte(5, dummy) # write 1 byte, read 4 bytes
-        data = self.spi.write(transaction, duplex=True, droptail=7) # 1 cycle dummy
+        data = self.spi.exchange(transaction, duplex=True, droptail=7) # 1 cycle dummy
         return toInt(data) >> 7
     
 """

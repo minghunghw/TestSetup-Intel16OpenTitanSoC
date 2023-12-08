@@ -41,12 +41,12 @@ class opentitan():
 
     # active low
     def chip_reset(self, val):
-        cur_state = self.gpio.read()
+        cur_state = self.gpio.read(True)
         cur_state &= ~(0b1 << 8)
         self.gpio.write(cur_state | val << 8)
 
     def start(self, val):
-        cur_state = self.gpio.read()
+        cur_state = self.gpio.read(True)
         cur_state &= ~(0b11 << 9)
         self.gpio.write(cur_state | val << 9 | val << 10)
 

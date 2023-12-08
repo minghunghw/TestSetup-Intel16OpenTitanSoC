@@ -38,6 +38,17 @@ def test_write_then_read():
     data = ot.read_reg(7)
     print(data)
 
+def test_sram():
+    ot = setup()
+    
+    # write data 128 to sram addr 128
+    ot.write_mem(2, 128, 128)
+
+    # read data 128 from sram addr 128
+    data = ot.read_mem(11, 128)
+    print(data)
+
 # test_write()
 # test_read()
 # test_write_then_read()
+# test_sram()

@@ -11,7 +11,7 @@ ADDR_OPENTITAN = "ftdi://ftdi:232h:02:03/1"
 The OpenTian SoC Chip Control Class
 """
 class opentitan():
-    def __init__(self, addr=ADDR_OPENTITAN, freq=1e6):
+    def __init__(self, addr=ADDR_OPENTITAN, freq=10e6):
         self.addr = addr
         self.freq = freq
         """
@@ -51,29 +51,28 @@ class opentitan():
         self.gpio.write(cur_state | val << 9 | val << 10)
 
     def write_mem(self, cmd, addr, data):
-        self.spi.write(toByte(1, cmd))
-        self.spi.write(toByte(4, addr))
-        self.spi.write(toByte(4, data))
+        transaction = toByte(1, cmd) + toByte(4, addr) + toByte(4, data)
+        self.spi.write(transaction)
     
     def read_mem(self, cmd, addr, dummy=0):
-        self.spi.write(toByte(1, cmd))
-        self.spi.write(toByte(4, addr))
-        self.spi.write(toByte(5, dummy), droptail=6) # 34 cycles
-        data = self.spi.read(4)
-        return data
+        transaction = toByte(1, cmd) + toByte(4, addr) + toByte(9, dummy) # write 5 bytes, read 4 bytes
+        data = self.spi.write(transaction, duplex=True, droptail=6) # 34 cycles dummy
+        return toInt(data) >> 6
 
     def write_reg(self, cmd, data):
-        self.spi.write(toByte(1, cmd))
-        self.spi.write(toByte(1, data))
+        transaction = toByte(1, cmd) + toByte(1, data)
+        self.spi.write(transaction)
     
     def read_reg(self, cmd, dummy=0):
-        self.spi.write(toByte(1, cmd))
-        self.spi.write(toByte(1, dummy), droptail=7) # 1 cycle
-        data = self.spi.read(4)
-        return data
+        transaction = toByte(1, cmd) + toByte(5, dummy) # write 1 byte, read 4 bytes
+        data = self.spi.write(transaction, duplex=True, droptail=7) # 1 cycle dummy
+        return toInt(data) >> 7
     
 """
 Some useful functions
 """
 def toByte(bit, data):
     return data.to_bytes(bit, byteorder='big')
+
+def toInt(data):
+    return int.from_bytes(data, byteorder='big')

@@ -59,7 +59,7 @@ module tb;
             cmd  = 2;
             addr = 32'h80 + 4*i;
             data = pattern[i];
-            `SPI_OUTPUT(cmd, addr, data)
+            `SPI_OUTPUT_MEM(cmd, addr, data)
             #(SPI_CLK_PERIOD*10);
 
             if (pattern[i] == 32'h00000fff)

@@ -24,10 +24,14 @@ def test_gpio():
     ot.write_mem(2, 140, int("00d60733", 16))
     ot.write_mem(2, 144, int("00e42a23", 16))
 
+    # start fetch
     time.sleep(1)
     ot.start(1)
 
+    # release fetch
     time.sleep(1)
     ot.start(0)
+
+    # read data from gpio, should be 30
 
 # test_gpio()

@@ -19,7 +19,7 @@ LINKERS = $(COMMON)/linker.lds
 ASLINKERS = $(COMMON)/aslinker.lds
 
 DEBUG_FLAG = -g
-CFLAGS =  -mno-relax -march=rv32im -mabi=ilp32 -nostartfiles -std=gnu11 -mstrict-align -mno-div 
+CFLAGS = -mno-relax -march=rv32im -mabi=ilp32 -nostartfiles -std=gnu11 -mstrict-align -mno-div 
 OFLAGS = -O0
 ASFLAGS = -mno-relax -march=rv32im -mabi=ilp32 -nostartfiles -Wno-main -mstrict-align
 OBJFLAGS = -SD -M no-aliases 

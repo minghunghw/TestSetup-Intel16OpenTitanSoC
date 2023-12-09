@@ -1,5 +1,5 @@
-from pyftdi.spi import SpiController
 import time
+from pyftdi.spi import SpiController
 
 """
 FT232H Device USB Address (SPI)

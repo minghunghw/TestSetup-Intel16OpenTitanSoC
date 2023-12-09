@@ -1,11 +1,10 @@
-from pyftdi.gpio import GpioMpsseController
 from pyftdi.spi import SpiController
 import time
 
 """
 FT232H Device USB Address (SPI)
 """
-ADDR_OPENTITAN = "ftdi://ftdi:232h:02:03/1"
+ADDR_OPENTITAN = "ftdi://ftdi:232h:00:ff/1"
 
 """
 The OpenTian SoC Chip Control Class
@@ -32,6 +31,20 @@ class opentitan():
         self.gpio = self.ctrl.get_gpio()
         self.gpio.set_direction(0xff00, 0xff00)
         self.gpio.write(0x0100)
+        # reset chip
+        self.chip_reset(0)
+        time.sleep(1)
+        # release reset
+        self.chip_reset(1)
+        time.sleep(1)
+
+    def fetch(self):
+        # start fetch
+        time.sleep(1)
+        self.start(1)
+        # release fetch
+        time.sleep(1)
+        self.start(0)
 
     def reset(self):
         self.gpio.write(0x0100)

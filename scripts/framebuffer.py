@@ -18,7 +18,7 @@ def text_to_framebuffer(text, width, height, font_size=12):
     byte_array = image.tobytes()
     return byte_array
 
-def figure_to_framebuffer(figure_path, width, height):
+def figure_to_framebuffer(figure_path, width, height, figure_width, figure_height):
     # Create a new image with a black background (1-bit mode)
     image = Image.new("1", (width, height), 0)  # "1" indicates 1-bit mode, 0 for black background
 
@@ -28,8 +28,8 @@ def figure_to_framebuffer(figure_path, width, height):
     # Load the figure (replace "figure.png" with the path to your figure)
     figure = Image.open(figure_path)
 
-    # Resize the figure to fit within the specified width and height
-    figure.thumbnail((width, height))
+    # Resize the figure to a new width and height
+    figure = figure.resize((figure_width, figure_height))
 
     # Calculate the position to center the figure on the background
     position = ((width - figure.width) // 2, (height - figure.height) // 2)

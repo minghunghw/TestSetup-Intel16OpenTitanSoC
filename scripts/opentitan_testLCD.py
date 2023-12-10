@@ -15,11 +15,7 @@ def test_SH1222():
     sh = sh_ctrl()
     frame = fb.all_to_framebuffer(0)
     sh.write_data(frame)
-
-def test_chip_logo():
-    sh = sh_ctrl()
     
 # test_SH1122_text()
 # test_SH1122_logo()
 # test_SH1222()
-# test_chip_logo()

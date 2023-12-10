@@ -41,7 +41,7 @@ def figure_to_framebuffer(figure_path, width, height, figure_width, figure_heigh
     byte_array = image.tobytes()
     return byte_array
 
-def all_to_framebbuffer(edge):
+def all_to_framebuffer(edge):
     image = Image.new("1", (1024 ,64), 0)
     draw = ImageDraw.Draw(image)
     figure1 = Image.open("fig/umich.png")

@@ -126,4 +126,4 @@ class sh1122():
 
     def write_data(self, buf):
         self.lcd_dc(1)
-        self.spi.write(bytearray([buf]))
+        self.spi.write(buf)

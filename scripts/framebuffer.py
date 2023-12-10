@@ -8,7 +8,7 @@ def text_to_framebuffer(text, width, height, font_size=12):
     draw = ImageDraw.Draw(image)
 
     # Choose a font with a specific size
-    font = ImageFont.truetype("font/times new roman bold italic.ttf", font_size)
+    font = ImageFont.truetype("font/SF Collegiate.ttf", font_size)
 
     # Draw text on the image
     text_position = (0, 0)

@@ -27,7 +27,7 @@ After the driver is installed, open an Anaconda prompt on the host computer, ins
 pip install pyftdi 
 ```
 
-After the installations, connect the microcontroller to the PCB via jumper wires according to `PinMap.txt` in this repository. The pin numbers of bridge boards are already printed on-board, like what is shown in Fig. 2, while the chip I/O names are printed on the top of the PCB shown in Fig. 1. After connecting the chip I/Os, also remember to connect the ground pins to the PCB ground for a common ground.
+After the installations, connect the microcontroller to the PCB via jumper wires according to `PinMap.md` in this repository. The pin numbers of bridge boards are already printed on-board, like what is shown in Fig. 2, while the chip I/O names are printed on the top of the PCB shown in Fig. 1. After connecting the chip I/Os, also remember to connect the ground pins to the PCB ground for a common ground.
 
 <img src="./img/FT232H.jpg" width="600">
 Fig. 2. FT232H USB-to-GPIO/SPI Microcontroller

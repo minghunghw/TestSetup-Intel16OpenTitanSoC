@@ -4,6 +4,7 @@
 *.out
 *.vpd
 *.old
+*.txt
 .nfs*
 logs
 csrc

@@ -29,7 +29,7 @@ while opened != 'y':
 # Start demo
 opened = 'n'
 while opened != 'y':
-    opened = input("Do you want to have logo demo: enter y to continue.\n")
+    opened = input("Do you want to have logo demo?: enter y to continue.\n")
 
 sh = sh_ctrl()
 frame = fb.all_to_framebuffer(0)

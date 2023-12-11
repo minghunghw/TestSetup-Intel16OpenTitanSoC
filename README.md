@@ -18,8 +18,8 @@ The printed circuit board (PCB) could be as simple as one that directly connects
 <img src="./img/PCB.png" width="600">
 Fig. 1. Top view of the PCB
 
-### 2.2 **FT232H USB-to-GPIO Bridge**
-One [FT232H](https://www.adafruit.com/product/2264#description) USB to GPIO, SPI microcontroller from AdaFruit are needed in this setup for controlling the chip. Please purchase it online from Adafruit. After getting the board, follow this [page](https://learn.adafruit.com/circuitpython-on-any-computer-with-ft232h/windows) `Plug in FT232H & Fix Driver with Zadig` part to install driver for the boards using [Zadig](https://zadig.akeo.ie) on the host computer.
+### 2.2 **FT232H USB-to-GPIO/SPI Microcontroller**
+One [FT232H](https://www.adafruit.com/product/2264#description) USB to GPIO, SPI microcontroller from AdaFruit are needed in this setup for controlling the chip. Please purchase it online from Adafruit. After getting the board, follow this [page](https://learn.adafruit.com/circuitpython-on-any-computer-with-ft232h/windows) `Plug in FT232H & Fix Driver with Zadig` part to install driver for the microcontroller using [Zadig](https://zadig.akeo.ie) on the host computer.
 
 After the driver is installed, open an Anaconda prompt on the host computer, install [pyftdi](https://eblot.github.io/pyftdi/api/spi.html) libraries:
 

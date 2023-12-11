@@ -31,8 +31,7 @@ opened = 'n'
 while opened != 'y':
     opened = input("Do you want to have logo demo?: enter y to continue.\n")
 
+print("Waiting for LCD to display logo...")
 sh = sh_ctrl()
 frame = fb.all_to_framebuffer(0)
 sh.write_data(frame)
-
-print("Waiting for LCD to display logo...")

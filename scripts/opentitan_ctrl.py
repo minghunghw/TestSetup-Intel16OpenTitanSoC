@@ -21,7 +21,7 @@ class opentitan():
             C0:     rst_ni.         Deafult 1
             D7-D4,
             D3:     spi_cs.         Default 1
-            D2:     spi_sdo0
+            D2:     spi_sdo0.
             D1:     spi_sdi0.       Default 0
             D0:     spi_sclk.       Default 0
         """

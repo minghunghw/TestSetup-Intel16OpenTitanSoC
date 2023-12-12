@@ -3,6 +3,7 @@
 This repository provides a fully open-source test setup solution for an OpenTitan chip tapd-out in Intel 16nm with OpenROAD-generated OpenTitan subset instances and 24 OpenFASOC-generated temperature sensor instances. The setup is highly automated with Python and open-source libraries, where the chip is controlled through low-cost commercially-available microcontroller.
 
 **Author:** [Ming-Hung Chen](https://www.linkedin.com/in/ming-hung-chen-85ab311b6/) from the [University of Michigan, Ann Arbor](https://micl.engin.umich.edu)
+\
 **Advisor:** [Mehdi Saligane](https://www.linkedin.com/in/mehdi-saligane/) from the [University of Michigan, Ann Arbor](https://micl.engin.umich.edu)
 
 ## 1. Prerequisites

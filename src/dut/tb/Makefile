@@ -5,7 +5,7 @@ export MEM		  	= $(IP)/memory/ip224uhdlp1p11rf_2048x32m8b2c1s0_t0r0p0d0a1m1h/rtl
 export OPENTITAN    = $(IP)/opentitan/ip
 export IBEX 	   	= $(IP)/opentitan/lowrisc_ibex
 
-TEST 	= spi_gpio
+TEST 	= gpio
 VCFILE	= vc/$(TEST).vc
 
 

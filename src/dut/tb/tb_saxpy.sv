@@ -76,7 +76,7 @@ module tb;
         fetch_enable_i  = 0;
         en_ifetch_i     = 0;
 
-        if (gpio_o == 255) begin
+        if (gpio_o == 30001) begin
             $display("%c[1;32m",27);
             $display("SUCCESS\n");
             $display("%c[0m",27);

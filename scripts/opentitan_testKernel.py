@@ -19,8 +19,6 @@ def test_gpio():
 
     # read data from gpio, should be 30
 
-# All program below should output gpio data 255
-
 def test_one():
     ot = ot_ctrl()
 
@@ -31,6 +29,7 @@ def test_one():
         addr += 4
 
     ot.fetch()
+    # read data from gpio, should be 255
 
 def test_fib():
     ot = ot_ctrl()
@@ -42,6 +41,7 @@ def test_fib():
         addr += 4
 
     ot.fetch()
+    # read data from gpio, should be 987
 
 def test_saxpy():
     ot = ot_ctrl()
@@ -53,6 +53,7 @@ def test_saxpy():
         addr += 4
 
     ot.fetch()
+    # read data from gpio, should be 30001
 
 # test_gpio()
 # test_one()

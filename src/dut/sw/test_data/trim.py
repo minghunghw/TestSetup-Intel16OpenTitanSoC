@@ -5,9 +5,15 @@ def read_file(file_name):
         return file.readlines()
 
 def trim(hex):
-    for i in range(len(hex)):
+    count = 0
+    for i in range(32, len(hex)):
         if hex[i] == '00000000\n':
-            return hex[0:i] + ['00000fff\n']
+            if count == 5:
+                return hex[32:i-5] + ['00000fff\n']  
+            else:
+                count += 1
+        else:
+            count = 0
 
 def write_file(file_name, hex):
     with open(file_name, 'w') as file:

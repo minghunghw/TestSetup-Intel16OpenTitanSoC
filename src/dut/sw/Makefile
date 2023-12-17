@@ -3,16 +3,9 @@ ASM = src_asm
 C = src_c
 HEX = hex
 TESTDATA = test_data
-SRC_C =
-SRC_S = gpio
 
-ifdef SRC_C
-TEST = $(SRC_C)
-SRC = $(C)/$(SRC_C).c
-else
-TEST = $(SRC_S)
-SRC = $(ASM)/$(SRC_S).s
-endif
+TEST = saxpy
+SRC = src_asm/$(TEST).s
 
 CRT = $(COMMON)/crt.s
 LINKERS = $(COMMON)/linker.lds
@@ -44,7 +37,7 @@ disassemble: program.debug.elf
 	$(OBJDUMP) $(OBJDFLAGS) program.debug.elf > program.debug.dump
 	rm program.debug.elf
 hex: program.elf
-	$(ELF2HEX) 4 4096 program.elf > program.hex
+	$(ELF2HEX) 4 2048 program.elf > program.hex
 	cp program.hex $(HEX)/$(TEST).hex
 	python $(TESTDATA)/trim.py $(TEST)
 	rm program*

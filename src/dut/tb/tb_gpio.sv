@@ -70,13 +70,12 @@ module tb;
         fetch_enable_i  = 1;
         en_ifetch_i     = 1;
 
-        #(CLK_PERIOD*10);
+        #(CLK_PERIOD*100);
 
         @(negedge clk_i)
         fetch_enable_i  = 0;
         en_ifetch_i     = 0;
 
-        #(CLK_PERIOD*10);
         if (gpio_o == 30) begin
             $display("%c[1;32m",27);
             $display("SUCCESS\n");

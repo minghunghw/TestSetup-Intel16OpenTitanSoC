@@ -70,7 +70,7 @@ module tb;
         fetch_enable_i  = 1;
         en_ifetch_i     = 1;
 
-        #(CLK_PERIOD*400);
+        #(CLK_PERIOD*500);
 
         @(negedge clk_i)
         fetch_enable_i  = 0;

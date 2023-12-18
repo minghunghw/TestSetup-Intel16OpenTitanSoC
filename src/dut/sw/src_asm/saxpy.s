@@ -95,4 +95,4 @@ loop:	lw	x3, 0(x1)
 	
 	li s0, 0x30010000 #gpio base address
 	sw x3, 0x14(s0) #send out to gpio direct out
-	wfi
+	j start
